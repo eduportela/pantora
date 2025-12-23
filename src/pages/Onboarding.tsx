@@ -9,7 +9,7 @@ const steps = [{
   description: "Samle tomflasker og bokser hjemme hos deg – vi tar oss av resten."
 }, {
   icon: Truck,
-  title: "Bestill henting",
+  title: "Henting hjemme hos deg",
   description: "Velg dag og tid som passer deg. Vi kommer til døren din."
 }, {
   icon: Banknote,
