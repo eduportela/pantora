@@ -13,7 +13,7 @@ const steps = [{
   description: "Velg ønsket tidspunkt – vi tar oss av resten"
 }, {
   icon: Banknote,
-  title: "Få betalt",
+  title: "Få betalt – og gjør en forskjell",
   description: "Motta pengene rett på konto. Raskt og enkelt."
 }];
 export default function Onboarding() {
