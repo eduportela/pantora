@@ -89,9 +89,8 @@ export default function Onboarding() {
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         <div className="animate-fade-in flex flex-col items-center mb-8">
           <img alt="Pantora" className="w-20 h-20 mb-6" src="/lovable-uploads/60469bc2-0b08-4b21-9304-884a5ee9b507.png" />
-          <h1 className="text-3xl font-bold text-foreground leading-tight text-center">En liten handling for deg
-  En stor forskjell for  miljøet..
-Tjen penger.<br />
+          <h1 className="text-3xl font-bold text-foreground leading-tight text-center">En liten handling for deg   En stor forskjell for  miljøet.. Tjen penger.
+          <br />
             Tjen penger.
           </h1>
           <p className="text-muted-foreground mt-3 text-center text-sm my-[13px]"> Tjen penger uten å forlate hjemmet.</p>
