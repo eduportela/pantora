@@ -3,8 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
 import { BalanceCard } from "@/components/BalanceCard";
 import { BottomNav } from "@/components/BottomNav";
-import { ArrowUpRight, CreditCard, Smartphone, Check } from "lucide-react";
+import { ArrowUpRight, CreditCard, Smartphone, Check, Heart } from "lucide-react";
 import { toast } from "sonner";
+import rodeKorsLogo from "@/assets/rode-kors-logo.png";
 
 const transactions = [
   {
@@ -134,6 +135,20 @@ export default function Earnings() {
             </div>
           </section>
         )}
+
+        {/* Donate to Røde Kors */}
+        <section className="animate-slide-up" style={{ animationDelay: "75ms" }}>
+          <Button
+            onClick={() => toast.success("Takk for din donasjon til Røde Kors! ❤️")}
+            variant="outline"
+            size="lg"
+            className="w-full flex items-center justify-center gap-3 border-2 border-[#ED1C24]/30 hover:bg-[#ED1C24]/5 hover:border-[#ED1C24]/50"
+          >
+            <img src={rodeKorsLogo} alt="Røde Kors" className="h-6 w-auto" />
+            <span>Doner til Røde Kors</span>
+            <Heart className="w-4 h-4 text-[#ED1C24]" />
+          </Button>
+        </section>
 
         {/* Stats */}
         <section className="animate-slide-up" style={{ animationDelay: "100ms" }}>
