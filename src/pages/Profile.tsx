@@ -14,6 +14,7 @@ import {
   Recycle,
 } from "lucide-react";
 import { toast } from "sonner";
+import augustProfile from "@/assets/august-profile.jpeg";
 
 const menuItems = [
   {
@@ -66,11 +67,13 @@ export default function Profile() {
         {/* User Info Card */}
         <section className="animate-scale-in bg-card rounded-2xl p-6 border border-border shadow-card">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-full gradient-primary flex items-center justify-center">
-              <User className="w-8 h-8 text-primary-foreground" />
-            </div>
+            <img 
+              src={augustProfile} 
+              alt="August" 
+              className="w-16 h-16 rounded-full object-cover"
+            />
             <div>
-              <h2 className="text-xl font-bold text-foreground">Ola Nordmann</h2>
+              <h2 className="text-xl font-bold text-foreground">August</h2>
               <p className="text-muted-foreground">+47 123 45 678</p>
             </div>
           </div>
