@@ -14,7 +14,7 @@ const steps = [{
 }, {
   icon: Banknote,
   title: "Få betalt – og gjør en forskjell",
-  description: "Motta pengene rett på konto, eller velg å donere til et godt formål"
+  description: "Motta pengene diretamente, eller velg å donere"
 }];
 export default function Onboarding() {
   const navigate = useNavigate();
