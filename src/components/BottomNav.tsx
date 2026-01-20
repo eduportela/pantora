@@ -1,11 +1,11 @@
-import { Home, CalendarDays, Wallet, History, User } from "lucide-react";
+import { Home, CalendarDays, LayoutGrid, History, User } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { icon: Home, label: "Hjem", path: "/home" },
   { icon: CalendarDays, label: "Henting", path: "/pickup" },
-  { icon: Wallet, label: "Inntekter", path: "/earnings" },
+  { icon: LayoutGrid, label: "Annonser", path: "/feed" },
   { icon: History, label: "Historikk", path: "/history" },
   { icon: User, label: "Profil", path: "/profile" },
 ];
