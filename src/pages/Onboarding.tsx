@@ -95,7 +95,7 @@ export default function Onboarding() {
             En stor forskjell for miljøet.
           </h1>
           <p className="text-muted-foreground mt-3 text-center text-sm my-[13px]">
-            Tjen penger uten å forlate hjemmet.
+            Resirkuler flasker uten å forlate hjemmet.
           </p>
         </div>
 
