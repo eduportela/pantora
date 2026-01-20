@@ -6,7 +6,7 @@ import pantoraLogo from "@/assets/pantora-logo.png";
 const steps = [{
   icon: Recycle,
   title: "Samle flasker",
-  description: "Samle tomflasker og bokser hjemme hos deg – vi tar oss av resten."
+  description: "Samle tomflasker og bokser hjemme hos deg."
 }, {
   icon: Truck,
   title: "Henting hjemme hos deg",
