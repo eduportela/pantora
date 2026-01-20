@@ -10,7 +10,7 @@ const steps = [{
 }, {
   icon: Truck,
   title: "Henting hjemme hos deg",
-  description: "Velg ønsket tidspunkt – vi tar oss av resten"
+  description: "Velg ønsket tidspunkt"
 }, {
   icon: Banknote,
   title: "Få betalt – og gjør en forskjell",
