@@ -7,7 +7,6 @@ import {
   User,
   Phone,
   MapPin,
-  CreditCard,
   HelpCircle,
   ChevronRight,
   LogOut,
@@ -33,12 +32,6 @@ const menuItems = [
     icon: MapPin,
     label: "Adresser",
     description: "1 lagret adresse",
-    action: () => {},
-  },
-  {
-    icon: CreditCard,
-    label: "Betalingsmetoder",
-    description: "Vipps, Bankkonto",
     action: () => {},
   },
   {
