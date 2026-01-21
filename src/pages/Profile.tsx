@@ -6,6 +6,7 @@ import {
   User,
   Phone,
   MapPin,
+  Settings,
   HelpCircle,
   ChevronRight,
   LogOut,
@@ -30,6 +31,12 @@ const menuItems = [
     icon: MapPin,
     label: "Adresser",
     description: "1 lagret adresse",
+    action: () => {},
+  },
+  {
+    icon: Settings,
+    label: "Innstillinger",
+    description: "Varsler og preferanser",
     action: () => {},
   },
   {
