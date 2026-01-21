@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Header } from "@/components/Header";
@@ -10,7 +9,6 @@ import {
   HelpCircle,
   ChevronRight,
   LogOut,
-  Recycle,
 } from "lucide-react";
 import { toast } from "sonner";
 import augustProfile from "@/assets/august-profile.jpeg";
@@ -44,7 +42,6 @@ const menuItems = [
 
 export default function Profile() {
   const navigate = useNavigate();
-  const [showStats, setShowStats] = useState(true);
 
   const handleLogout = () => {
     localStorage.removeItem("pantora_user");
@@ -71,38 +68,6 @@ export default function Profile() {
             </div>
           </div>
         </section>
-
-        {/* Stats */}
-        {showStats && (
-          <section
-            className="animate-slide-up bg-secondary rounded-xl p-4"
-            style={{ animationDelay: "50ms" }}
-          >
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center">
-                <Recycle className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <div>
-                <p className="font-semibold text-foreground">Din miljøpåvirkning</p>
-                <p className="text-xs text-muted-foreground">Takk for at du resirkulerer!</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-3 gap-4 text-center">
-              <div>
-                <p className="text-2xl font-bold text-primary">142</p>
-                <p className="text-xs text-muted-foreground">Flasker</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-primary">5</p>
-                <p className="text-xs text-muted-foreground">Hentinger</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-primary">12 kg</p>
-                <p className="text-xs text-muted-foreground">CO₂ spart</p>
-              </div>
-            </div>
-          </section>
-        )}
 
         {/* Menu Items */}
         <section className="animate-slide-up" style={{ animationDelay: "100ms" }}>
