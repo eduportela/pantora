@@ -3,8 +3,7 @@ import { Header } from "@/components/Header";
 import { BottomNav } from "@/components/BottomNav";
 import { ListingCard, Listing } from "@/components/ListingCard";
 import { Button } from "@/components/ui/button";
-import { Plus, Filter } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Filter } from "lucide-react";
 
 const mockListings: Listing[] = [
   {
@@ -61,7 +60,6 @@ type FilterType = "all" | "sell" | "donate";
 
 export default function Feed() {
   const [filter, setFilter] = useState<FilterType>("all");
-  const navigate = useNavigate();
 
   const filteredListings = mockListings.filter((listing) => {
     if (filter === "all") return true;
@@ -114,16 +112,6 @@ export default function Feed() {
           </div>
         )}
       </main>
-
-      {/* Floating Add Button */}
-      <Button
-        variant="hero"
-        size="lg"
-        className="fixed bottom-24 right-4 w-14 h-14 rounded-full shadow-lg z-40"
-        onClick={() => navigate("/create-listing")}
-      >
-        <Plus className="w-6 h-6" />
-      </Button>
 
       <BottomNav />
     </div>
