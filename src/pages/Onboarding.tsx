@@ -34,7 +34,7 @@ export default function Onboarding() {
       localStorage.setItem("pantora_user", JSON.stringify({
         phone
       }));
-      navigate("/home");
+      navigate("/feed");
     }
   };
   if (showLogin) {
