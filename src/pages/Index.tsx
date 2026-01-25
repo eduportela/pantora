@@ -5,13 +5,7 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is logged in
-    const user = localStorage.getItem("pantora_user");
-    if (user) {
-      navigate("/home");
-    } else {
-      navigate("/onboarding");
-    }
+    navigate("/onboarding");
   }, [navigate]);
 
   return (
