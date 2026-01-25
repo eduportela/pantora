@@ -14,7 +14,7 @@ const steps = [{
 }, {
   icon: Banknote,
   title: "Få betalt – og gjør en forskjell",
-  description: "Motta pengene diretamente, eller velg å donere"
+  description: "Motta pengene direkte, eller velg å donere"
 }];
 export default function Onboarding() {
   const navigate = useNavigate();
@@ -39,9 +39,9 @@ export default function Onboarding() {
   };
   if (showLogin) {
     return <div className="min-h-screen bg-background flex flex-col">
-        <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+        <div className="flex-1 flex flex-col items-center justify-center px-6 md:px-16 lg:px-32 py-12">
           <div className="animate-fade-in flex flex-col items-center mb-12">
-            <img src={pantoraLogo} alt="Pantora" className="w-24 h-24 mb-4" />
+            <img src={pantoraLogo} alt="Pantora" className="w-24 h-24 md:w-20 md:h-20 mb-4" />
             <h1 className="text-2xl font-bold text-foreground">Velkommen til Pantora</h1>
             <p className="text-muted-foreground mt-2 text-center">
               Logg inn for å komme i gang
@@ -86,9 +86,9 @@ export default function Onboarding() {
       </div>;
   }
   return <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
+      <div className="flex-1 flex flex-col items-center justify-center px-6 md:px-16 lg:px-32 py-12">
         <div className="animate-fade-in flex flex-col items-center mb-8">
-          <img alt="Pantora" className="w-20 h-20 mb-6" src="/lovable-uploads/60469bc2-0b08-4b21-9304-884a5ee9b507.png" />
+          <img alt="Pantora" className="w-20 h-20 md:w-16 md:h-16 mb-6" src="/lovable-uploads/60469bc2-0b08-4b21-9304-884a5ee9b507.png" />
           <h1 className="text-3xl font-bold text-foreground leading-tight text-center">
             En liten handling for deg.
             <br />
