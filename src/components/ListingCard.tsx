@@ -30,9 +30,9 @@ export function ListingCard({ listing }: ListingCardProps) {
   };
 
   return (
-    <div className="bg-card rounded-xl border border-border overflow-hidden shadow-card animate-scale-in">
+    <div className="bg-card rounded-xl border border-border overflow-hidden shadow-card animate-scale-in hover:shadow-lg transition-shadow">
       {/* Image */}
-      <div className="relative aspect-video bg-muted">
+      <div className="relative aspect-[4/3] md:aspect-[3/2] bg-muted">
         <img
           src={listing.image}
           alt={listing.title}
