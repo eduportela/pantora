@@ -70,7 +70,7 @@ export default function Feed() {
     <div className="min-h-screen bg-background pb-24">
       <Header title="Annonser" subtitle="Finn flasker i nærheten" />
 
-      <main className="px-4 space-y-4">
+      <main className="px-4 md:px-8 lg:px-16 xl:px-24 space-y-4 max-w-6xl mx-auto">
         {/* Filter Tabs */}
         <div className="flex gap-2 overflow-x-auto pb-2">
           <Button
@@ -99,8 +99,8 @@ export default function Feed() {
           </Button>
         </div>
 
-        {/* Listings */}
-        <div className="space-y-4">
+        {/* Listings - Grid on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
           {filteredListings.map((listing) => (
             <ListingCard key={listing.id} listing={listing} />
           ))}
