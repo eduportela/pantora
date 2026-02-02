@@ -47,7 +47,7 @@ export default function Profile() {
           <div className="flex items-center gap-4">
             <img src={augustProfile} alt="August" className="w-16 h-16 rounded-full object-cover" />
             <div>
-              <h2 className="text-xl font-bold text-foreground">August F. </h2>
+              <h2 className="text-xl font-bold text-foreground">​First August F.    </h2>
               <p className="text-muted-foreground">+47 123 45 678</p>
             </div>
           </div>
