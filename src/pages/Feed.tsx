@@ -4,11 +4,15 @@ import { BottomNav } from "@/components/BottomNav";
 import { ListingCard, Listing } from "@/components/ListingCard";
 import { Button } from "@/components/ui/button";
 import { Filter } from "lucide-react";
+import listing1 from "@/assets/listing-1.jpg";
+import listing2 from "@/assets/listing-2.jpg";
+import listing3 from "@/assets/listing-3.jpg";
+import listing4 from "@/assets/listing-4.avif";
 
 const mockListings: Listing[] = [
   {
     id: "1",
-    image: "/lovable-uploads/262bc330-5cce-40d6-9870-42b4ce0240e0.png",
+    image: listing1,
     title: "Stor pose med flasker og bokser",
     description: "Ca. 50 flasker og bokser, blanding av plast og boks. Må hentes.",
     price: 75,
@@ -20,7 +24,7 @@ const mockListings: Listing[] = [
   },
   {
     id: "2",
-    image: "/lovable-uploads/385c68dc-1943-49f5-9e17-a9c3c5edd87d.png",
+    image: listing2,
     title: "Donerer flasker til veldedig formål",
     description: "30 flasker klar for henting. Passer for innsamlingsaksjoner.",
     price: null,
@@ -32,7 +36,7 @@ const mockListings: Listing[] = [
   },
   {
     id: "3",
-    image: "/lovable-uploads/4466eca5-a2a2-4357-b227-078258fa547b.png",
+    image: listing3,
     title: "Panteflasker fra arrangement",
     description: "100+ flasker etter bursdagsfest. Må hentes i løpet av uken.",
     price: 150,
@@ -44,7 +48,7 @@ const mockListings: Listing[] = [
   },
   {
     id: "4",
-    image: "/lovable-uploads/60469bc2-0b08-4b21-9304-884a5ee9b507.png",
+    image: listing4,
     title: "Småpose med bokser",
     description: "20 bokser fra ukens handling. Gratis til den som vil ha!",
     price: null,
