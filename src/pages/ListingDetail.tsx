@@ -74,25 +74,28 @@ export default function ListingDetail() {
             <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
           <h1 className="text-lg font-bold text-foreground truncate flex-1">{listing.title}</h1>
-          {isOwner && (
-            <div className="flex gap-2">
-              <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}>
-                <Edit className="w-5 h-5" />
-              </Button>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="text-destructive"
-                onClick={() => {
-                  if (confirm("Er du sikker på at du vil slette denne annonsen?")) {
-                    deleteListing.mutate();
-                  }
-                }}
-              >
-                <Trash2 className="w-5 h-5" />
-              </Button>
-            </div>
-          )}
+          <div className="flex gap-2">
+            {!isOwner && <ReportButton reportType="listing" targetId={listing.id} variant="icon" />}
+            {isOwner && (
+              <>
+                <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}>
+                  <Edit className="w-5 h-5" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="text-destructive"
+                  onClick={() => {
+                    if (confirm("Er du sikker på at du vil slette denne annonsen?")) {
+                      deleteListing.mutate();
+                    }
+                  }}
+                >
+                  <Trash2 className="w-5 h-5" />
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </header>
 
