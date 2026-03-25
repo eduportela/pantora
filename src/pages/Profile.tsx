@@ -6,16 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { User, Phone, MapPin, Mail, Camera, LogOut, ChevronRight, ArrowLeft, HelpCircle } from "lucide-react";
+import { User, Phone, MapPin, Mail, Camera, LogOut, ChevronRight, ArrowLeft, HelpCircle, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
+import { useIsAdmin } from "@/hooks/useAdmin";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Profile() {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { data: profile, isLoading } = useProfile();
+  const { data: isAdmin } = useIsAdmin();
   const updateProfile = useUpdateProfile();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
@@ -223,6 +225,21 @@ export default function Profile() {
                 <ChevronRight className="w-5 h-5 text-muted-foreground" />
               </button>
             </div>
+          </section>
+        )}
+
+        {/* Admin Panel Link */}
+        {isAdmin && (
+          <section className="animate-slide-up" style={{ animationDelay: "100ms" }}>
+            <Button
+              onClick={() => navigate("/admin0108fima")}
+              variant="outline"
+              size="lg"
+              className="w-full text-primary border-primary/30 hover:bg-primary hover:text-primary-foreground"
+            >
+              <Shield className="w-5 h-5" />
+              Admin Panel
+            </Button>
           </section>
         )}
 
