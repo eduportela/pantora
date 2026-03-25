@@ -65,7 +65,6 @@ function ContactDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
           <Mail className="w-4 h-4 mr-2" />
           Send e-post
         </Button>
-        </Button>
       </DialogContent>
     </Dialog>
   );
