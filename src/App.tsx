@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { FloatingButtons } from "@/components/FloatingButtons";
 import Index from "./pages/Index";
 import Onboarding from "./pages/Onboarding";
 import Auth from "./pages/Auth";
@@ -13,6 +14,7 @@ import ListingDetail from "./pages/ListingDetail";
 import Profile from "./pages/Profile";
 import Terms from "./pages/Terms";
 import FAQ from "./pages/FAQ";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
