@@ -29,6 +29,8 @@ const AppRoutes = () => (
     <Route path="/" element={<Index />} />
     <Route path="/onboarding" element={<Onboarding />} />
     <Route path="/auth" element={<Auth />} />
+    <Route path="/terms" element={<Terms />} />
+    <Route path="/faq" element={<FAQ />} />
     <Route path="/feed" element={<Feed />} />
     <Route path="/listing/:id" element={<ListingDetail />} />
     <Route path="/create-listing" element={<ProtectedRoute><CreateListing /></ProtectedRoute>} />

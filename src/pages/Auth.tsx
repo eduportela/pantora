@@ -148,12 +148,29 @@ export default function Auth() {
             </div>
           </div>
 
+          {isSignUp && (
+            <div className="flex items-start space-x-3 pt-2">
+              <Checkbox
+                id="terms"
+                checked={acceptedTerms}
+                onCheckedChange={(checked) => setAcceptedTerms(checked === true)}
+                className="mt-0.5"
+              />
+              <Label htmlFor="terms" className="text-sm text-muted-foreground leading-snug cursor-pointer">
+                Jeg aksepterer{" "}
+                <Link to="/terms" className="text-primary font-semibold hover:underline">
+                  brukervilkårene
+                </Link>
+              </Label>
+            </div>
+          )}
+
           <Button
             type="submit"
             variant="hero"
             size="xl"
             className="w-full"
-            disabled={loading}
+            disabled={loading || (isSignUp && !acceptedTerms)}
           >
             {loading
               ? "Vennligst vent..."
