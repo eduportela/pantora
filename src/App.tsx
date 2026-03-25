@@ -37,7 +37,7 @@ const AppRoutes = () => (
     <Route path="/listing/:id" element={<ListingDetail />} />
     <Route path="/create-listing" element={<ProtectedRoute><CreateListing /></ProtectedRoute>} />
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-    <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
+    <Route path="/admin0108fima" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );

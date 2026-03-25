@@ -89,7 +89,7 @@ export function BottomNav() {
             />
             <span className={cn(
               "text-[10px] font-medium",
-              location.pathname === "/admin" && "font-semibold"
+              location.pathname === "/admin0108fima" && "font-semibold"
             )}>
               Admin
             </span>
