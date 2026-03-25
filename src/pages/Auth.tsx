@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowRight, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
@@ -17,10 +18,17 @@ export default function Auth() {
   const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    if (isSignUp && !acceptedTerms) {
+      toast.error("Du må akseptere brukervilkårene for å registrere deg.");
+      setLoading(false);
+      return;
+    }
 
     try {
       if (isSignUp) {
@@ -140,12 +148,29 @@ export default function Auth() {
             </div>
           </div>
 
+          {isSignUp && (
+            <div className="flex items-start space-x-3 pt-2">
+              <Checkbox
+                id="terms"
+                checked={acceptedTerms}
+                onCheckedChange={(checked) => setAcceptedTerms(checked === true)}
+                className="mt-0.5"
+              />
+              <Label htmlFor="terms" className="text-sm text-muted-foreground leading-snug cursor-pointer">
+                Jeg aksepterer{" "}
+                <Link to="/terms" className="text-primary font-semibold hover:underline">
+                  brukervilkårene
+                </Link>
+              </Label>
+            </div>
+          )}
+
           <Button
             type="submit"
             variant="hero"
             size="xl"
             className="w-full"
-            disabled={loading}
+            disabled={loading || (isSignUp && !acceptedTerms)}
           >
             {loading
               ? "Vennligst vent..."
