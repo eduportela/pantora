@@ -1,4 +1,5 @@
 import { Wallet, TrendingUp } from "lucide-react";
+import { useLanguage } from "@/hooks/useLanguage";
 
 interface BalanceCardProps {
   balance: number;
@@ -6,16 +7,15 @@ interface BalanceCardProps {
 }
 
 export function BalanceCard({ balance, pendingAmount = 0 }: BalanceCardProps) {
+  const { t } = useLanguage();
+
   return (
     <div className="gradient-balance rounded-2xl p-6 text-primary-foreground shadow-lg animate-scale-in">
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-sm font-medium opacity-90 mb-1">Din saldo</p>
+          <p className="text-sm font-medium opacity-90 mb-1">{t("balance.title")}</p>
           <p className="text-4xl font-bold tracking-tight">
-            {balance.toLocaleString("nb-NO", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })}{" "}
+            {balance.toLocaleString("nb-NO", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}{" "}
             <span className="text-2xl font-semibold">kr</span>
           </p>
         </div>
@@ -23,13 +23,10 @@ export function BalanceCard({ balance, pendingAmount = 0 }: BalanceCardProps) {
           <Wallet className="w-6 h-6" />
         </div>
       </div>
-      
       {pendingAmount > 0 && (
         <div className="mt-4 pt-4 border-t border-primary-foreground/20 flex items-center gap-2">
           <TrendingUp className="w-4 h-4 opacity-80" />
-          <span className="text-sm opacity-90">
-            +{pendingAmount.toLocaleString("nb-NO")} kr venter
-          </span>
+          <span className="text-sm opacity-90">+{pendingAmount.toLocaleString("nb-NO")} {t("balance.pending")}</span>
         </div>
       )}
     </div>

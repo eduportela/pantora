@@ -2,29 +2,20 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Recycle, Truck, Banknote, ArrowRight } from "lucide-react";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { useLanguage } from "@/hooks/useLanguage";
 import pantoraLogo from "@/assets/pantora-logo.png";
-
-const steps = [
-  {
-    icon: Recycle,
-    title: "Samle flasker",
-    description: "Samle tomflasker og bokser hjemme hos deg.",
-  },
-  {
-    icon: Truck,
-    title: "Henting hjemme hos deg",
-    description: "Velg ønsket tidspunkt",
-  },
-  {
-    icon: Banknote,
-    title: "Få betalt – og gjør en forskjell",
-    description: "Motta pengene direkte, eller velg å donere",
-  },
-];
 
 export default function Onboarding() {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
+  const { t } = useLanguage();
+
+  const steps = [
+    { icon: Recycle, title: t("onboarding.step1.title"), description: t("onboarding.step1.desc") },
+    { icon: Truck, title: t("onboarding.step2.title"), description: t("onboarding.step2.desc") },
+    { icon: Banknote, title: t("onboarding.step3.title"), description: t("onboarding.step3.desc") },
+  ];
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
@@ -36,6 +27,11 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+      {/* Language toggle at top */}
+      <div className="flex justify-end px-4 pt-4">
+        <LanguageToggle />
+      </div>
+
       <div className="flex-1 flex flex-col items-center justify-center px-6 md:px-16 lg:px-32 py-12">
         <div className="animate-fade-in flex flex-col items-center mb-8">
           <img
@@ -44,12 +40,12 @@ export default function Onboarding() {
             src="/lovable-uploads/60469bc2-0b08-4b21-9304-884a5ee9b507.png"
           />
           <h1 className="text-3xl font-bold text-foreground leading-tight text-center">
-            En liten handling for deg.
+            {t("onboarding.heading1")}
             <br />
-            En stor forskjell for miljøet.
+            {t("onboarding.heading2")}
           </h1>
           <p className="text-muted-foreground mt-3 text-center text-sm my-[13px]">
-            Resirkuler flasker uten å forlate hjemmet.
+            {t("onboarding.subtitle")}
           </p>
         </div>
 
@@ -77,9 +73,7 @@ export default function Onboarding() {
               </div>
               <div>
                 <h3 className="font-semibold text-foreground">{step.title}</h3>
-                <p className="text-sm text-muted-foreground mt-0.5">
-                  {step.description}
-                </p>
+                <p className="text-sm text-muted-foreground mt-0.5">{step.description}</p>
               </div>
             </div>
           ))}
@@ -102,7 +96,7 @@ export default function Onboarding() {
           </div>
 
           <Button onClick={handleNext} variant="hero" size="xl" className="w-full">
-            {currentStep < steps.length - 1 ? "Neste" : "Kom i gang"}
+            {currentStep < steps.length - 1 ? t("onboarding.next") : t("onboarding.start")}
             <ArrowRight className="w-5 h-5" />
           </Button>
         </div>

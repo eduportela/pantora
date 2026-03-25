@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { LanguageProvider } from "@/hooks/useLanguage";
 import { FloatingButtons } from "@/components/FloatingButtons";
 import Index from "./pages/Index";
 import Onboarding from "./pages/Onboarding";
@@ -45,14 +46,16 @@ const AppRoutes = () => (
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <AuthProvider>
-        <Toaster />
-        <Sonner position="top-center" />
-        <BrowserRouter>
-          <AppRoutes />
-          <FloatingButtons />
-        </BrowserRouter>
-      </AuthProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <Toaster />
+          <Sonner position="top-center" />
+          <BrowserRouter>
+            <AppRoutes />
+            <FloatingButtons />
+          </BrowserRouter>
+        </AuthProvider>
+      </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>
 );
