@@ -1,6 +1,7 @@
-import { LayoutGrid, Plus, User } from "lucide-react";
+import { LayoutGrid, Plus, User, Shield } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useIsAdmin } from "@/hooks/useAdmin";
 
 export function BottomNav() {
   const location = useLocation();
