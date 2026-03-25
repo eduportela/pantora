@@ -1,73 +1,32 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { BottomNav } from "@/components/BottomNav";
-import { ListingCard, Listing } from "@/components/ListingCard";
+import { ListingCard } from "@/components/ListingCard";
 import { Button } from "@/components/ui/button";
-import { Filter } from "lucide-react";
-import listing1 from "@/assets/listing-1.jpg";
-import listing2 from "@/assets/listing-2.jpg";
-import listing3 from "@/assets/listing-3.jpg";
-import listing4 from "@/assets/listing-4.avif";
-
-const mockListings: Listing[] = [
-  {
-    id: "1",
-    image: listing1,
-    title: "Stor pose med flasker og bokser",
-    description: "Ca. 50 flasker og bokser, blanding av plast og boks. Må hentes.",
-    price: 75,
-    location: "Grünerløkka, Oslo",
-    contact: { phone: "12345678" },
-    bottleCount: 50,
-    createdAt: "i dag",
-    type: "sell",
-  },
-  {
-    id: "2",
-    image: listing2,
-    title: "Donerer flasker til veldedig formål",
-    description: "30 flasker klar for henting. Passer for innsamlingsaksjoner.",
-    price: null,
-    location: "Majorstuen, Oslo",
-    contact: { phone: "87654321" },
-    bottleCount: 30,
-    createdAt: "i går",
-    type: "donate",
-  },
-  {
-    id: "3",
-    image: listing3,
-    title: "Panteflasker fra arrangement",
-    description: "100+ flasker etter bursdagsfest. Må hentes i løpet av uken.",
-    price: 150,
-    location: "Frogner, Oslo",
-    contact: { phone: "11223344" },
-    bottleCount: 100,
-    createdAt: "2 dager siden",
-    type: "sell",
-  },
-  {
-    id: "4",
-    image: listing4,
-    title: "Småpose med bokser",
-    description: "20 bokser fra ukens handling. Gratis til den som vil ha!",
-    price: null,
-    location: "Torshov, Oslo",
-    contact: { phone: "55667788" },
-    bottleCount: 20,
-    createdAt: "3 dager siden",
-    type: "donate",
-  },
-];
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
 type FilterType = "all" | "sell" | "donate";
 
 export default function Feed() {
   const [filter, setFilter] = useState<FilterType>("all");
 
-  const filteredListings = mockListings.filter((listing) => {
-    if (filter === "all") return true;
-    return listing.type === filter;
+  const { data: listings = [], isLoading } = useQuery({
+    queryKey: ["listings", filter],
+    queryFn: async () => {
+      let query = supabase
+        .from("listings")
+        .select("*, profiles!listings_user_id_fkey(display_name, avatar_url, phone, email, phone_public, email_public)")
+        .order("created_at", { ascending: false });
+
+      if (filter !== "all") {
+        query = query.eq("type", filter);
+      }
+
+      const { data, error } = await query;
+      if (error) throw error;
+      return data;
+    },
   });
 
   return (
@@ -75,42 +34,33 @@ export default function Feed() {
       <Header title="Annonser" subtitle="Finn flasker i nærheten" />
 
       <main className="px-4 md:px-8 lg:px-16 xl:px-24 space-y-4 max-w-6xl mx-auto">
-        {/* Filter Tabs */}
         <div className="flex gap-2 overflow-x-auto pb-2">
-          <Button
-            variant={filter === "all" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setFilter("all")}
-            className="shrink-0"
-          >
+          <Button variant={filter === "all" ? "default" : "outline"} size="sm" onClick={() => setFilter("all")} className="shrink-0">
             Alle
           </Button>
-          <Button
-            variant={filter === "sell" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setFilter("sell")}
-            className="shrink-0"
-          >
+          <Button variant={filter === "sell" ? "default" : "outline"} size="sm" onClick={() => setFilter("sell")} className="shrink-0">
             Til salgs
           </Button>
-          <Button
-            variant={filter === "donate" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setFilter("donate")}
-            className="shrink-0"
-          >
+          <Button variant={filter === "donate" ? "default" : "outline"} size="sm" onClick={() => setFilter("donate")} className="shrink-0">
             Donasjoner
           </Button>
         </div>
 
-        {/* Listings - Grid on desktop */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-          {filteredListings.map((listing) => (
-            <ListingCard key={listing.id} listing={listing} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="h-64 bg-muted rounded-xl animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            {listings.map((listing: any) => (
+              <ListingCard key={listing.id} listing={listing} />
+            ))}
+          </div>
+        )}
 
-        {filteredListings.length === 0 && (
+        {!isLoading && listings.length === 0 && (
           <div className="text-center py-12">
             <p className="text-muted-foreground">Ingen annonser funnet</p>
           </div>
