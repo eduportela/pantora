@@ -228,6 +228,21 @@ export default function Profile() {
           </section>
         )}
 
+        {/* Admin Panel Link */}
+        {isAdmin && (
+          <section className="animate-slide-up" style={{ animationDelay: "100ms" }}>
+            <Button
+              onClick={() => navigate("/admin0108fima")}
+              variant="outline"
+              size="lg"
+              className="w-full text-primary border-primary/30 hover:bg-primary hover:text-primary-foreground"
+            >
+              <Shield className="w-5 h-5" />
+              Admin Panel
+            </Button>
+          </section>
+        )}
+
         {/* Logout */}
         <section className="animate-slide-up" style={{ animationDelay: "150ms" }}>
           <Button
