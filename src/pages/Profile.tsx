@@ -6,10 +6,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { User, Phone, MapPin, Mail, Camera, LogOut, ChevronRight, ArrowLeft, HelpCircle } from "lucide-react";
+import { User, Phone, MapPin, Mail, Camera, LogOut, ChevronRight, ArrowLeft, HelpCircle, Shield } from "lucide-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
+import { useIsAdmin } from "@/hooks/useAdmin";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function Profile() {
