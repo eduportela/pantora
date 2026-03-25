@@ -83,7 +83,7 @@ export function BottomNav() {
             <Shield
               className={cn(
                 "w-5 h-5 transition-transform duration-200",
-                location.pathname === "/admin" && "scale-110"
+                location.pathname === "/admin0108fima" && "scale-110"
               )}
               strokeWidth={location.pathname === "/admin" ? 2.5 : 2}
             />
