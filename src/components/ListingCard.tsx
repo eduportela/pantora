@@ -1,43 +1,31 @@
-import { Phone, MessageCircle, MapPin, Heart, Package } from "lucide-react";
+import { MapPin, Package, Heart, MessageCircle } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-
-export interface Listing {
-  id: string;
-  image: string;
-  title: string;
-  description: string;
-  price: number | null; // null means donation
-  location: string;
-  contact: {
-    phone?: string;
-    email?: string;
-  };
-  bottleCount: number;
-  createdAt: string;
-  type: "sell" | "donate";
-}
+import { useNavigate } from "react-router-dom";
+import { formatDistanceToNow } from "date-fns";
+import { nb } from "date-fns/locale";
 
 interface ListingCardProps {
-  listing: Listing;
+  listing: any;
 }
 
 export function ListingCard({ listing }: ListingCardProps) {
-  const handleContact = () => {
-    if (listing.contact.phone) {
-      window.location.href = `tel:${listing.contact.phone}`;
-    }
-  };
+  const navigate = useNavigate();
+  const mainImage = listing.images?.[0];
 
   return (
-    <div className="bg-card rounded-xl border border-border overflow-hidden shadow-card animate-scale-in hover:shadow-lg transition-shadow">
+    <div
+      onClick={() => navigate(`/listing/${listing.id}`)}
+      className="bg-card rounded-xl border border-border overflow-hidden shadow-card animate-scale-in hover:shadow-lg transition-shadow cursor-pointer"
+    >
       {/* Image */}
       <div className="relative aspect-[4/3] md:aspect-[3/2] bg-muted">
-        <img
-          src={listing.image}
-          alt={listing.title}
-          className="w-full h-full object-cover"
-        />
+        {mainImage ? (
+          <img src={mainImage} alt={listing.title} className="w-full h-full object-cover" />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center">
+            <Package className="w-12 h-12 text-muted-foreground" />
+          </div>
+        )}
         <Badge
           className={`absolute top-3 left-3 ${
             listing.type === "donate"
@@ -68,54 +56,45 @@ export function ListingCard({ listing }: ListingCardProps) {
               {listing.description}
             </p>
           </div>
-          {listing.type === "sell" && listing.price !== null ? (
-            <p className="text-lg font-bold text-primary shrink-0">
-              {listing.price} kr
-            </p>
+          {listing.type === "sell" && listing.price ? (
+            <p className="text-lg font-bold text-primary shrink-0">{listing.price} kr</p>
           ) : (
             <p className="text-lg font-bold text-success shrink-0">Gratis</p>
           )}
         </div>
 
         <div className="flex items-center gap-4 text-sm text-muted-foreground">
-          <span className="flex items-center gap-1">
-            <Package className="w-4 h-4" />
-            {listing.bottleCount} flasker
-          </span>
+          {listing.bottle_count && (
+            <span className="flex items-center gap-1">
+              <Package className="w-4 h-4" />
+              {listing.bottle_count} flasker
+            </span>
+          )}
           <span className="flex items-center gap-1">
             <MapPin className="w-4 h-4" />
             {listing.location}
           </span>
         </div>
 
-        <div className="flex gap-2 pt-2">
-          <Button
-            variant="outline"
-            size="sm"
-            className="flex-1"
-            onClick={handleContact}
-          >
-            <Phone className="w-4 h-4 mr-1" />
-            Ring
-          </Button>
-          <Button
-            variant="hero"
-            size="sm"
-            className="flex-1"
-            onClick={() => {
-              if (listing.contact.phone) {
-                window.location.href = `sms:${listing.contact.phone}`;
-              }
-            }}
-          >
-            <MessageCircle className="w-4 h-4 mr-1" />
-            Melding
-          </Button>
+        <div className="flex items-center justify-between pt-1">
+          <div className="flex items-center gap-2">
+            {listing.profiles?.avatar_url ? (
+              <img src={listing.profiles.avatar_url} className="w-6 h-6 rounded-full object-cover" alt="" />
+            ) : (
+              <div className="w-6 h-6 rounded-full bg-accent flex items-center justify-center">
+                <span className="text-[10px] font-bold text-accent-foreground">
+                  {(listing.profiles?.display_name || "?")[0].toUpperCase()}
+                </span>
+              </div>
+            )}
+            <span className="text-xs text-muted-foreground">
+              {listing.profiles?.display_name || "Anonym"}
+            </span>
+          </div>
+          <span className="text-xs text-muted-foreground">
+            {formatDistanceToNow(new Date(listing.created_at), { addSuffix: true, locale: nb })}
+          </span>
         </div>
-
-        <p className="text-xs text-muted-foreground text-center">
-          Lagt ut {listing.createdAt}
-        </p>
       </div>
     </div>
   );
