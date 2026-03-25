@@ -6,6 +6,7 @@ import { useIsAdmin } from "@/hooks/useAdmin";
 export function BottomNav() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { data: isAdmin } = useIsAdmin();
 
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card border-t border-border safe-area-pb">
