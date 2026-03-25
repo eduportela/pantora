@@ -85,7 +85,7 @@ export function BottomNav() {
                 "w-5 h-5 transition-transform duration-200",
                 location.pathname === "/admin0108fima" && "scale-110"
               )}
-              strokeWidth={location.pathname === "/admin" ? 2.5 : 2}
+              strokeWidth={location.pathname === "/admin0108fima" ? 2.5 : 2}
             />
             <span className={cn(
               "text-[10px] font-medium",
