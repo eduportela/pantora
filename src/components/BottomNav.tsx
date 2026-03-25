@@ -75,7 +75,7 @@ export function BottomNav() {
             to="/admin0108fima"
             className={cn(
               "flex flex-col items-center justify-center gap-1 flex-1 py-2 px-1 rounded-lg transition-all duration-200",
-              location.pathname === "/admin"
+              location.pathname === "/admin0108fima"
                 ? "text-primary"
                 : "text-muted-foreground hover:text-foreground"
             )}
