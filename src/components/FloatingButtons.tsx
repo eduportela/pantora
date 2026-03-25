@@ -53,7 +53,6 @@ function ContactDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
           </div>
           <div>
             <p className="font-semibold text-foreground">Maria Figu</p>
-            <p className="text-sm text-muted-foreground">Kundeansvarlig</p>
             <a
               href="mailto:mariafigu@pantora.no"
               className="text-sm text-primary font-medium hover:underline"
@@ -62,13 +61,11 @@ function ContactDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
             </a>
           </div>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Ta gjerne kontakt med oss for spørsmål om Pantora, samarbeid, eller andre henvendelser. Vi svarer vanligvis innen 24 timer.
-        </p>
         <Button variant="default" className="w-full" onClick={() => window.location.href = "mailto:mariafigu@pantora.no"}>
           <Mail className="w-4 h-4 mr-2" />
           Send e-post
         </Button>
+        <p className="text-xs text-muted-foreground text-center">© {new Date().getFullYear()} Pantora. All rights reserved.</p>
       </DialogContent>
     </Dialog>
   );
