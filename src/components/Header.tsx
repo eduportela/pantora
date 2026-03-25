@@ -1,4 +1,5 @@
 import { NotificationBell } from "@/components/NotificationBell";
+import { LanguageToggle } from "@/components/LanguageToggle";
 import { useAuth } from "@/hooks/useAuth";
 
 interface HeaderProps {
@@ -29,7 +30,10 @@ export function Header({ showLogo = true, title, subtitle }: HeaderProps) {
           {title && <h1 className="text-2xl font-bold text-foreground">{title}</h1>}
           {subtitle && <p className="text-muted-foreground mt-1">{subtitle}</p>}
         </div>
-        {user && <NotificationBell />}
+        <div className="flex items-center gap-2">
+          <LanguageToggle />
+          {user && <NotificationBell />}
+        </div>
       </div>
     </header>
   );
