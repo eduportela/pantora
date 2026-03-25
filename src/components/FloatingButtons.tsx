@@ -65,7 +65,6 @@ function ContactDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
           <Mail className="w-4 h-4 mr-2" />
           Send e-post
         </Button>
-        <p className="text-xs text-muted-foreground text-center">© {new Date().getFullYear()} Pantora. All rights reserved.</p>
       </DialogContent>
     </Dialog>
   );
