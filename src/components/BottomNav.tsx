@@ -68,6 +68,33 @@ export function BottomNav() {
             Profil
           </span>
         </Link>
+
+        {/* Admin - only for admins */}
+        {isAdmin && (
+          <Link
+            to="/admin"
+            className={cn(
+              "flex flex-col items-center justify-center gap-1 flex-1 py-2 px-1 rounded-lg transition-all duration-200",
+              location.pathname === "/admin"
+                ? "text-primary"
+                : "text-muted-foreground hover:text-foreground"
+            )}
+          >
+            <Shield
+              className={cn(
+                "w-5 h-5 transition-transform duration-200",
+                location.pathname === "/admin" && "scale-110"
+              )}
+              strokeWidth={location.pathname === "/admin" ? 2.5 : 2}
+            />
+            <span className={cn(
+              "text-[10px] font-medium",
+              location.pathname === "/admin" && "font-semibold"
+            )}>
+              Admin
+            </span>
+          </Link>
+        )}
       </div>
     </nav>
   );

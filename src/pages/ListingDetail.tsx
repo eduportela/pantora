@@ -175,6 +175,7 @@ export default function ListingDetail() {
                   E-post
                 </Button>
               )}
+              {!isOwner && <ReportButton reportType="profile" targetId={listing.user_id} variant="text" />}
             </div>
           </div>
 
