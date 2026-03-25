@@ -24,6 +24,12 @@ export default function Auth() {
     e.preventDefault();
     setLoading(true);
 
+    if (isSignUp && !acceptedTerms) {
+      toast.error("Du må akseptere brukervilkårene for å registrere deg.");
+      setLoading(false);
+      return;
+    }
+
     try {
       if (isSignUp) {
         const { error } = await supabase.auth.signUp({
