@@ -17,6 +17,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const { user, signOut } = useAuth();
   const { data: profile, isLoading } = useProfile();
+  const { data: isAdmin } = useIsAdmin();
   const updateProfile = useUpdateProfile();
   const [editing, setEditing] = useState(false);
   const [form, setForm] = useState({
