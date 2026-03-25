@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
+import { FloatingButtons } from "@/components/FloatingButtons";
 import Index from "./pages/Index";
 import Onboarding from "./pages/Onboarding";
 import Auth from "./pages/Auth";
@@ -13,6 +14,7 @@ import ListingDetail from "./pages/ListingDetail";
 import Profile from "./pages/Profile";
 import Terms from "./pages/Terms";
 import FAQ from "./pages/FAQ";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -35,6 +37,7 @@ const AppRoutes = () => (
     <Route path="/listing/:id" element={<ListingDetail />} />
     <Route path="/create-listing" element={<ProtectedRoute><CreateListing /></ProtectedRoute>} />
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+    <Route path="/admin" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
@@ -47,6 +50,7 @@ const App = () => (
         <Sonner position="top-center" />
         <BrowserRouter>
           <AppRoutes />
+          <FloatingButtons />
         </BrowserRouter>
       </AuthProvider>
     </TooltipProvider>

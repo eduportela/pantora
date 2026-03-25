@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Trash2 } from "lucide-react";
+import { ReportButton } from "@/components/ReportButton";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { nb } from "date-fns/locale";
@@ -83,14 +84,19 @@ export function CommentSection({ listingId }: CommentSectionProps) {
               <span className="text-xs text-muted-foreground">
                 {formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: nb })}
               </span>
-              {user?.id === comment.user_id && (
-                <button
-                  onClick={() => deleteComment.mutate(comment.id)}
-                  className="ml-auto text-muted-foreground hover:text-destructive"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                </button>
-              )}
+              <div className="ml-auto flex items-center gap-1">
+                {user && user.id !== comment.user_id && (
+                  <ReportButton reportType="comment" targetId={comment.id} />
+                )}
+                {user?.id === comment.user_id && (
+                  <button
+                    onClick={() => deleteComment.mutate(comment.id)}
+                    className="text-muted-foreground hover:text-destructive"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
             </div>
             <p className="text-sm text-foreground mt-0.5">{comment.content}</p>
           </div>

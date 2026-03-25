@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { CommentSection } from "@/components/CommentSection";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, MapPin, Package, Heart, Phone, Mail, Trash2, Edit, MessageCircle } from "lucide-react";
+import { ReportButton } from "@/components/ReportButton";
+import { ArrowLeft, MapPin, Package, Heart, Phone, Mail, Trash2, Edit } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { nb } from "date-fns/locale";
@@ -73,25 +74,28 @@ export default function ListingDetail() {
             <ArrowLeft className="w-5 h-5 text-foreground" />
           </button>
           <h1 className="text-lg font-bold text-foreground truncate flex-1">{listing.title}</h1>
-          {isOwner && (
-            <div className="flex gap-2">
-              <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}>
-                <Edit className="w-5 h-5" />
-              </Button>
-              <Button
-                size="icon"
-                variant="ghost"
-                className="text-destructive"
-                onClick={() => {
-                  if (confirm("Er du sikker på at du vil slette denne annonsen?")) {
-                    deleteListing.mutate();
-                  }
-                }}
-              >
-                <Trash2 className="w-5 h-5" />
-              </Button>
-            </div>
-          )}
+          <div className="flex gap-2">
+            {!isOwner && <ReportButton reportType="listing" targetId={listing.id} variant="icon" />}
+            {isOwner && (
+              <>
+                <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}>
+                  <Edit className="w-5 h-5" />
+                </Button>
+                <Button
+                  size="icon"
+                  variant="ghost"
+                  className="text-destructive"
+                  onClick={() => {
+                    if (confirm("Er du sikker på at du vil slette denne annonsen?")) {
+                      deleteListing.mutate();
+                    }
+                  }}
+                >
+                  <Trash2 className="w-5 h-5" />
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       </header>
 
@@ -171,6 +175,7 @@ export default function ListingDetail() {
                   E-post
                 </Button>
               )}
+              {!isOwner && <ReportButton reportType="profile" targetId={listing.user_id} variant="text" />}
             </div>
           </div>
 
