@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Trash2 } from "lucide-react";
+import { ReportButton } from "@/components/ReportButton";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { nb } from "date-fns/locale";
