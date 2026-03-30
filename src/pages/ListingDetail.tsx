@@ -47,6 +47,7 @@ export default function ListingDetail() {
   );
 
   const isOwner = user?.id === listing.user_id;
+  const canManage = isOwner || isAdmin;
   const profile = listing.profiles as any;
 
   return (
