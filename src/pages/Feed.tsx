@@ -18,16 +18,25 @@ export default function Feed() {
     queryFn: async () => {
       let query = supabase
         .from("listings")
-        .select("*, profiles!listings_user_id_fkey(display_name, avatar_url, phone, email, phone_public, email_public)")
+        .select("*")
         .order("created_at", { ascending: false });
 
       if (filter !== "all") {
         query = query.eq("type", filter);
       }
 
-      const { data, error } = await query;
+      const { data: listingsData, error } = await query;
       if (error) throw error;
-      return data;
+      if (!listingsData || listingsData.length === 0) return [];
+
+      const userIds = [...new Set(listingsData.map((l) => l.user_id))];
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("user_id, display_name, avatar_url, phone, email, phone_public, email_public")
+        .in("user_id", userIds);
+
+      const profileMap = new Map((profiles || []).map((p) => [p.user_id, p]));
+      return listingsData.map((l) => ({ ...l, profiles: profileMap.get(l.user_id) || null }));
     },
   });
 
