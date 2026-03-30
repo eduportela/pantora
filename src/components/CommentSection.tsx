@@ -72,8 +72,8 @@ export function CommentSection({ listingId }: CommentSectionProps) {
               <span className="text-sm font-medium text-foreground">{comment.profiles?.display_name || t("listing.anonymous")}</span>
               <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: dateLocale })}</span>
               <div className="ml-auto flex items-center gap-1">
-                {user && user.id !== comment.user_id && <ReportButton reportType="comment" targetId={comment.id} />}
-                {user?.id === comment.user_id && (
+                {user && user.id !== comment.user_id && !isAdmin && <ReportButton reportType="comment" targetId={comment.id} />}
+                {(user?.id === comment.user_id || isAdmin) && (
                   <button onClick={() => deleteComment.mutate(comment.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="w-3.5 h-3.5" /></button>
                 )}
               </div>
