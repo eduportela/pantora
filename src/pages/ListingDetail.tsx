@@ -57,13 +57,9 @@ export default function ListingDetail() {
           <button onClick={() => navigate(-1)} className="w-10 h-10 flex items-center justify-center rounded-full bg-muted hover:bg-muted/80 transition-colors"><ArrowLeft className="w-5 h-5 text-foreground" /></button>
           <h1 className="text-lg font-bold text-foreground truncate flex-1">{listing.title}</h1>
           <div className="flex gap-2">
-            {!isOwner && <ReportButton reportType="listing" targetId={listing.id} variant="icon" />}
-            {isOwner && (
-              <>
-                <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}><Edit className="w-5 h-5" /></Button>
-                <Button size="icon" variant="ghost" className="text-destructive" onClick={() => { if (confirm(t("listing.deleteConfirm"))) deleteListing.mutate(); }}><Trash2 className="w-5 h-5" /></Button>
-              </>
-            )}
+            {!isOwner && !isAdmin && <ReportButton reportType="listing" targetId={listing.id} variant="icon" />}
+            {isOwner && <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}><Edit className="w-5 h-5" /></Button>}
+            {canManage && <Button size="icon" variant="ghost" className="text-destructive" onClick={() => { if (confirm(t("listing.deleteConfirm"))) deleteListing.mutate(); }}><Trash2 className="w-5 h-5" /></Button>}
           </div>
         </div>
       </header>
