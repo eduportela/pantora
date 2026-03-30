@@ -19,6 +19,7 @@ export default function ListingDetail() {
   const { user } = useAuth();
   const { t, lang } = useLanguage();
   const queryClient = useQueryClient();
+  const { data: isAdmin } = useIsAdmin();
   const dateLocale = lang === "no" ? nb : enUS;
 
   const { data: listing, isLoading } = useQuery({
