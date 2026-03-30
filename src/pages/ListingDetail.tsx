@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useAdmin";
 import { useLanguage } from "@/hooks/useLanguage";
 import { CommentSection } from "@/components/CommentSection";
 import { Button } from "@/components/ui/button";
@@ -18,6 +19,7 @@ export default function ListingDetail() {
   const { user } = useAuth();
   const { t, lang } = useLanguage();
   const queryClient = useQueryClient();
+  const { data: isAdmin } = useIsAdmin();
   const dateLocale = lang === "no" ? nb : enUS;
 
   const { data: listing, isLoading } = useQuery({
@@ -45,6 +47,7 @@ export default function ListingDetail() {
   );
 
   const isOwner = user?.id === listing.user_id;
+  const canManage = isOwner || isAdmin;
   const profile = listing.profiles as any;
 
   return (
@@ -54,13 +57,9 @@ export default function ListingDetail() {
           <button onClick={() => navigate(-1)} className="w-10 h-10 flex items-center justify-center rounded-full bg-muted hover:bg-muted/80 transition-colors"><ArrowLeft className="w-5 h-5 text-foreground" /></button>
           <h1 className="text-lg font-bold text-foreground truncate flex-1">{listing.title}</h1>
           <div className="flex gap-2">
-            {!isOwner && <ReportButton reportType="listing" targetId={listing.id} variant="icon" />}
-            {isOwner && (
-              <>
-                <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}><Edit className="w-5 h-5" /></Button>
-                <Button size="icon" variant="ghost" className="text-destructive" onClick={() => { if (confirm(t("listing.deleteConfirm"))) deleteListing.mutate(); }}><Trash2 className="w-5 h-5" /></Button>
-              </>
-            )}
+            {!isOwner && !isAdmin && <ReportButton reportType="listing" targetId={listing.id} variant="icon" />}
+            {isOwner && <Button size="icon" variant="ghost" onClick={() => navigate(`/create-listing?edit=${listing.id}`)}><Edit className="w-5 h-5" /></Button>}
+            {canManage && <Button size="icon" variant="ghost" className="text-destructive" onClick={() => { if (confirm(t("listing.deleteConfirm"))) deleteListing.mutate(); }}><Trash2 className="w-5 h-5" /></Button>}
           </div>
         </div>
       </header>

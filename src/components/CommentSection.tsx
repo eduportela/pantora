@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
+import { useIsAdmin } from "@/hooks/useAdmin";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Send, Trash2 } from "lucide-react";
@@ -17,6 +18,7 @@ interface CommentSectionProps {
 
 export function CommentSection({ listingId }: CommentSectionProps) {
   const { user } = useAuth();
+  const { data: isAdmin } = useIsAdmin();
   const queryClient = useQueryClient();
   const [content, setContent] = useState("");
   const { t, lang } = useLanguage();
@@ -70,8 +72,8 @@ export function CommentSection({ listingId }: CommentSectionProps) {
               <span className="text-sm font-medium text-foreground">{comment.profiles?.display_name || t("listing.anonymous")}</span>
               <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(comment.created_at), { addSuffix: true, locale: dateLocale })}</span>
               <div className="ml-auto flex items-center gap-1">
-                {user && user.id !== comment.user_id && <ReportButton reportType="comment" targetId={comment.id} />}
-                {user?.id === comment.user_id && (
+                {user && user.id !== comment.user_id && !isAdmin && <ReportButton reportType="comment" targetId={comment.id} />}
+                {(user?.id === comment.user_id || isAdmin) && (
                   <button onClick={() => deleteComment.mutate(comment.id)} className="text-muted-foreground hover:text-destructive"><Trash2 className="w-3.5 h-3.5" /></button>
                 )}
               </div>
