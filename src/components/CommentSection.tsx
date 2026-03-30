@@ -29,11 +29,20 @@ export function CommentSection({ listingId }: CommentSectionProps) {
     queryFn: async () => {
       const { data, error } = await supabase
         .from("comments")
-        .select("*, profiles!comments_user_id_fkey(display_name, avatar_url)")
+        .select("*")
         .eq("listing_id", listingId)
         .order("created_at", { ascending: true });
       if (error) throw error;
-      return data;
+      if (!data || data.length === 0) return [];
+
+      const userIds = [...new Set(data.map((c) => c.user_id))];
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("user_id, display_name, avatar_url")
+        .in("user_id", userIds);
+
+      const profileMap = new Map((profiles || []).map((p) => [p.user_id, p]));
+      return data.map((c) => ({ ...c, profiles: profileMap.get(c.user_id) || null }));
     },
   });
 
