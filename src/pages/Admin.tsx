@@ -236,7 +236,15 @@ function ContentTab() {
 
   const { data: listings = [] } = useQuery({
     queryKey: ["admin-listings"],
-    queryFn: async () => { const { data, error } = await supabase.from("listings").select("*, profiles!listings_user_id_fkey(display_name)").order("created_at", { ascending: false }); if (error) throw error; return data; },
+    queryFn: async () => {
+      const { data, error } = await supabase.from("listings").select("*").order("created_at", { ascending: false });
+      if (error) throw error;
+      if (!data || data.length === 0) return [];
+      const userIds = [...new Set(data.map((l) => l.user_id))];
+      const { data: profiles } = await supabase.from("profiles").select("user_id, display_name").in("user_id", userIds);
+      const profileMap = new Map((profiles || []).map((p) => [p.user_id, p]));
+      return data.map((l) => ({ ...l, profiles: profileMap.get(l.user_id) || null }));
+    },
   });
 
   const deleteListing = useMutation({

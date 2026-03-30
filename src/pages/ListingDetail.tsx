@@ -25,9 +25,14 @@ export default function ListingDetail() {
   const { data: listing, isLoading } = useQuery({
     queryKey: ["listing", id],
     queryFn: async () => {
-      const { data, error } = await supabase.from("listings").select("*, profiles!listings_user_id_fkey(display_name, avatar_url, phone, email, phone_public, email_public)").eq("id", id!).single();
+      const { data, error } = await supabase.from("listings").select("*").eq("id", id!).single();
       if (error) throw error;
-      return data;
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("display_name, avatar_url, phone, email, phone_public, email_public")
+        .eq("user_id", data.user_id)
+        .single();
+      return { ...data, profiles: profile };
     },
     enabled: !!id,
   });
