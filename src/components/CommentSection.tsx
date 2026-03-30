@@ -18,6 +18,7 @@ interface CommentSectionProps {
 
 export function CommentSection({ listingId }: CommentSectionProps) {
   const { user } = useAuth();
+  const { data: isAdmin } = useIsAdmin();
   const queryClient = useQueryClient();
   const [content, setContent] = useState("");
   const { t, lang } = useLanguage();
