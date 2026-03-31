@@ -52,6 +52,7 @@ const translations: Record<string, Record<Lang, string>> = {
   "feed.forSale": { no: "Til salgs", en: "For sale" },
   "feed.donations": { no: "Donasjoner", en: "Donations" },
   "feed.noListings": { no: "Ingen annonser funnet", en: "No listings found" },
+  "feed.allCities": { no: "Alle byer", en: "All cities" },
 
   // Listing
   "listing.donation": { no: "Donasjon", en: "Donation" },
