@@ -100,8 +100,8 @@ export default function ListingDetail() {
               </div>
             </div>
             <div className="flex gap-2 mt-3">
-              {profile?.phone_public && profile?.phone && <Button size="sm" variant="outline" className="flex-1" onClick={() => window.location.href = `tel:${profile.phone}`}><Phone className="w-4 h-4 mr-1" />{t("listing.call")}</Button>}
-              {profile?.email_public && profile?.email && <Button size="sm" variant="outline" className="flex-1" onClick={() => window.location.href = `mailto:${profile.email}`}><Mail className="w-4 h-4 mr-1" />{t("listing.emailBtn")}</Button>}
+              {profile?.phone_public && profile?.phone && <Button size="sm" variant="outline" className="flex-1" onClick={() => { setPendingContact(`tel:${profile.phone}`); setShowSafetyTips(true); }}><Phone className="w-4 h-4 mr-1" />{t("listing.call")}</Button>}
+              {profile?.email_public && profile?.email && <Button size="sm" variant="outline" className="flex-1" onClick={() => { setPendingContact(`mailto:${profile.email}`); setShowSafetyTips(true); }}><Mail className="w-4 h-4 mr-1" />{t("listing.emailBtn")}</Button>}
               {!isOwner && <ReportButton reportType="profile" targetId={listing.user_id} variant="text" />}
             </div>
           </div>
