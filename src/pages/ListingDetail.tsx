@@ -23,6 +23,8 @@ export default function ListingDetail() {
   const queryClient = useQueryClient();
   const { data: isAdmin } = useIsAdmin();
   const dateLocale = lang === "no" ? nb : enUS;
+  const [showSafetyTips, setShowSafetyTips] = useState(false);
+  const [pendingContact, setPendingContact] = useState<string | null>(null);
 
   const { data: listing, isLoading } = useQuery({
     queryKey: ["listing", id],
