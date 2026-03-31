@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { useLanguage } from "@/hooks/useLanguage";
+import { SafetyTipsDialog } from "@/components/SafetyTipsDialog";
 
 export default function FAQ() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [safetyOpen, setSafetyOpen] = useState(false);
 
   const faqs = [
     { question: t("faq.q1"), answer: t("faq.a1") },
@@ -33,7 +36,11 @@ export default function FAQ() {
             </AccordionItem>
           ))}
         </Accordion>
+        <Button variant="outline" size="lg" className="w-full mt-8" onClick={() => setSafetyOpen(true)}>
+          {t("faq.safetyTips")}
+        </Button>
       </div>
+      <SafetyTipsDialog open={safetyOpen} onClose={() => setSafetyOpen(false)} />
     </div>
   );
 }

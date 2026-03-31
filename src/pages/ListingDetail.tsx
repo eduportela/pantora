@@ -108,6 +108,11 @@ export default function ListingDetail() {
           <div className="bg-card rounded-xl border border-border p-4"><CommentSection listingId={listing.id} /></div>
         </div>
       </div>
+      <SafetyTipsDialog
+        open={showSafetyTips}
+        onClose={() => { setShowSafetyTips(false); setPendingContact(null); }}
+        onContinue={() => { if (pendingContact) window.location.href = pendingContact; setPendingContact(null); }}
+      />
     </div>
   );
 }

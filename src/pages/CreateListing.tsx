@@ -158,6 +158,7 @@ export default function CreateListing() {
           {isSubmitting ? t("create.publishing") : editId ? t("create.update") : t("create.publish")}
         </Button>
       </form>
+      <SafetyTipsDialog open={showSafetyTips} onClose={() => setShowSafetyTips(false)} continueLabel={t("safety.continuePost")} />
     </div>
   );
 }
