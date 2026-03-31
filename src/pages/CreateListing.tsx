@@ -28,7 +28,7 @@ export default function CreateListing() {
   const [location, setLocation] = useState("");
   const [bottleCount, setBottleCount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [showSafetyTips, setShowSafetyTips] = useState(() => !editId);
   useEffect(() => {
     if (editId) {
       supabase.from("listings").select("*").eq("id", editId).single().then(({ data }) => {
