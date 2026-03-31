@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +8,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { CommentSection } from "@/components/CommentSection";
 import { Button } from "@/components/ui/button";
 import { ReportButton } from "@/components/ReportButton";
+import { SafetyTipsDialog } from "@/components/SafetyTipsDialog";
 import { ArrowLeft, MapPin, Package, Heart, Phone, Mail, Trash2, Edit } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
