@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +8,7 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { CommentSection } from "@/components/CommentSection";
 import { Button } from "@/components/ui/button";
 import { ReportButton } from "@/components/ReportButton";
+import { SafetyTipsDialog } from "@/components/SafetyTipsDialog";
 import { ArrowLeft, MapPin, Package, Heart, Phone, Mail, Trash2, Edit } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
@@ -21,6 +23,8 @@ export default function ListingDetail() {
   const queryClient = useQueryClient();
   const { data: isAdmin } = useIsAdmin();
   const dateLocale = lang === "no" ? nb : enUS;
+  const [showSafetyTips, setShowSafetyTips] = useState(false);
+  const [pendingContact, setPendingContact] = useState<string | null>(null);
 
   const { data: listing, isLoading } = useQuery({
     queryKey: ["listing", id],
@@ -96,14 +100,19 @@ export default function ListingDetail() {
               </div>
             </div>
             <div className="flex gap-2 mt-3">
-              {profile?.phone_public && profile?.phone && <Button size="sm" variant="outline" className="flex-1" onClick={() => window.location.href = `tel:${profile.phone}`}><Phone className="w-4 h-4 mr-1" />{t("listing.call")}</Button>}
-              {profile?.email_public && profile?.email && <Button size="sm" variant="outline" className="flex-1" onClick={() => window.location.href = `mailto:${profile.email}`}><Mail className="w-4 h-4 mr-1" />{t("listing.emailBtn")}</Button>}
+              {profile?.phone_public && profile?.phone && <Button size="sm" variant="outline" className="flex-1" onClick={() => { setPendingContact(`tel:${profile.phone}`); setShowSafetyTips(true); }}><Phone className="w-4 h-4 mr-1" />{t("listing.call")}</Button>}
+              {profile?.email_public && profile?.email && <Button size="sm" variant="outline" className="flex-1" onClick={() => { setPendingContact(`mailto:${profile.email}`); setShowSafetyTips(true); }}><Mail className="w-4 h-4 mr-1" />{t("listing.emailBtn")}</Button>}
               {!isOwner && <ReportButton reportType="profile" targetId={listing.user_id} variant="text" />}
             </div>
           </div>
           <div className="bg-card rounded-xl border border-border p-4"><CommentSection listingId={listing.id} /></div>
         </div>
       </div>
+      <SafetyTipsDialog
+        open={showSafetyTips}
+        onClose={() => { setShowSafetyTips(false); setPendingContact(null); }}
+        onContinue={() => { if (pendingContact) window.location.href = pendingContact; setPendingContact(null); }}
+      />
     </div>
   );
 }

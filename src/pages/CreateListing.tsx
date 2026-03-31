@@ -10,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
 import { useQueryClient } from "@tanstack/react-query";
+import { SafetyTipsDialog } from "@/components/SafetyTipsDialog";
 
 export default function CreateListing() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function CreateListing() {
   const [location, setLocation] = useState("");
   const [bottleCount, setBottleCount] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
+  const [showSafetyTips, setShowSafetyTips] = useState(() => !editId);
   useEffect(() => {
     if (editId) {
       supabase.from("listings").select("*").eq("id", editId).single().then(({ data }) => {
@@ -157,6 +158,7 @@ export default function CreateListing() {
           {isSubmitting ? t("create.publishing") : editId ? t("create.update") : t("create.publish")}
         </Button>
       </form>
+      <SafetyTipsDialog open={showSafetyTips} onClose={() => setShowSafetyTips(false)} continueLabel={t("safety.continuePost")} />
     </div>
   );
 }
