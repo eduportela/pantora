@@ -316,3 +316,29 @@ function ContentTab({ country }: { country: Country }) {
     </div>
   );
 }
+
+function SettingsTab() {
+  const { t } = useLanguage();
+  const { data: chatEnabled } = useAppSetting<boolean>("chat_enabled", true);
+  const update = useUpdateAppSetting();
+
+  return (
+    <div className="space-y-4 mt-4">
+      <div className="bg-card rounded-xl border border-border p-4">
+        <div className="flex items-start gap-3">
+          <MessageCircle className="w-5 h-5 text-primary mt-1" />
+          <div className="flex-1">
+            <div className="flex items-center justify-between gap-3">
+              <p className="font-semibold text-foreground">{t("admin.chatEnabled")}</p>
+              <Switch
+                checked={!!chatEnabled}
+                onCheckedChange={(v) => update.mutate({ key: "chat_enabled", value: v })}
+              />
+            </div>
+            <p className="text-sm text-muted-foreground mt-1">{t("admin.chatToggleDesc")}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
