@@ -112,14 +112,14 @@ function StatsOverview({ country }: { country: Country }) {
   );
 }
 
-function ReportsTab() {
+function ReportsTab({ country }: { country: Country }) {
   const queryClient = useQueryClient();
   const { t, lang } = useLanguage();
   const dateLocale = lang === "no" ? nb : enUS;
 
   const { data: reports = [] } = useQuery({
-    queryKey: ["admin-reports"],
-    queryFn: async () => { const { data, error } = await supabase.from("reports").select("*").order("created_at", { ascending: false }); if (error) throw error; return data; },
+    queryKey: ["admin-reports", country],
+    queryFn: async () => { const { data, error } = await supabase.from("reports").select("*").eq("country", country).order("created_at", { ascending: false }); if (error) throw error; return data; },
   });
 
   const updateReport = useMutation({
@@ -157,14 +157,14 @@ function ReportsTab() {
   );
 }
 
-function HelpTab() {
+function HelpTab({ country }: { country: Country }) {
   const queryClient = useQueryClient();
   const { t, lang } = useLanguage();
   const dateLocale = lang === "no" ? nb : enUS;
 
   const { data: requests = [] } = useQuery({
-    queryKey: ["admin-help"],
-    queryFn: async () => { const { data, error } = await supabase.from("help_requests").select("*").order("created_at", { ascending: false }); if (error) throw error; return data; },
+    queryKey: ["admin-help", country],
+    queryFn: async () => { const { data, error } = await supabase.from("help_requests").select("*").eq("country", country).order("created_at", { ascending: false }); if (error) throw error; return data; },
   });
 
   const updateHelp = useMutation({
@@ -196,13 +196,13 @@ function HelpTab() {
   );
 }
 
-function UsersTab() {
+function UsersTab({ country }: { country: Country }) {
   const queryClient = useQueryClient();
   const { t } = useLanguage();
 
   const { data: profiles = [] } = useQuery({
-    queryKey: ["admin-users"],
-    queryFn: async () => { const { data, error } = await supabase.from("profiles").select("*").order("created_at", { ascending: false }); if (error) throw error; return data; },
+    queryKey: ["admin-users", country],
+    queryFn: async () => { const { data, error } = await supabase.from("profiles").select("*").eq("country", country).order("created_at", { ascending: false }); if (error) throw error; return data; },
   });
 
   const { data: roles = [] } = useQuery({
@@ -248,14 +248,14 @@ function UsersTab() {
   );
 }
 
-function ContentTab() {
+function ContentTab({ country }: { country: Country }) {
   const queryClient = useQueryClient();
   const { t } = useLanguage();
 
   const { data: listings = [] } = useQuery({
-    queryKey: ["admin-listings"],
+    queryKey: ["admin-listings", country],
     queryFn: async () => {
-      const { data, error } = await supabase.from("listings").select("*").order("created_at", { ascending: false });
+      const { data, error } = await supabase.from("listings").select("*").eq("country", country).order("created_at", { ascending: false });
       if (error) throw error;
       if (!data || data.length === 0) return [];
       const userIds = [...new Set(data.map((l) => l.user_id))];
