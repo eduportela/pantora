@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useCountry } from "@/hooks/useCountry";
 import { useQueryClient } from "@tanstack/react-query";
 import { SafetyTipsDialog } from "@/components/SafetyTipsDialog";
 
@@ -18,6 +19,7 @@ export default function CreateListing() {
   const editId = searchParams.get("edit");
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { country } = useCountry();
   const queryClient = useQueryClient();
 
   const [images, setImages] = useState<File[]>([]);
@@ -71,7 +73,7 @@ export default function CreateListing() {
     setIsSubmitting(true);
     try {
       const imageUrls = await uploadImages();
-      const listingData = { title: title.trim(), description: description.trim() || null, price: price ? parseInt(price) : null, location: location.trim(), bottle_count: bottleCount ? parseInt(bottleCount) : null, type: (!price || parseInt(price) === 0) ? "donate" : "sell", images: imageUrls, user_id: user.id };
+      const listingData = { title: title.trim(), description: description.trim() || null, price: price ? parseInt(price) : null, location: location.trim(), bottle_count: bottleCount ? parseInt(bottleCount) : null, type: (!price || parseInt(price) === 0) ? "donate" : "sell", images: imageUrls, user_id: user.id, country };
 
       if (editId) {
         const { error } = await supabase.from("listings").update(listingData).eq("id", editId);
