@@ -8,13 +8,16 @@ import { ArrowRight, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { toast } from "sonner";
-import { LanguageToggle } from "@/components/LanguageToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { CountrySelector } from "@/components/CountrySelector";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useCountry } from "@/hooks/useCountry";
 import pantoraLogo from "@/assets/pantora-logo.png";
 
 export default function Auth() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const { country } = useCountry();
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -39,7 +42,7 @@ export default function Auth() {
           email,
           password,
           options: {
-            data: { full_name: name },
+            data: { full_name: name, country },
             emailRedirectTo: window.location.origin,
           },
         });
@@ -69,8 +72,9 @@ export default function Auth() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <div className="flex justify-end px-4 pt-4">
-        <LanguageToggle />
+      <div className="flex justify-end gap-2 px-4 pt-4">
+        <CountrySelector />
+        <LanguageSelector />
       </div>
       <div className="flex-1 flex flex-col items-center justify-center px-6 md:px-16 lg:px-32 py-12">
         <div className="animate-fade-in flex flex-col items-center mb-10">
