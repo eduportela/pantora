@@ -11,16 +11,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowLeft, Users, FileText, AlertTriangle, HelpCircle, Shield, Trash2, Ban, Eye } from "lucide-react";
+import { Switch } from "@/components/ui/switch";
+import { ArrowLeft, Users, FileText, AlertTriangle, HelpCircle, Shield, Trash2, Ban, Eye, Settings, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { nb, enUS } from "date-fns/locale";
+import { COUNTRIES, Country } from "@/hooks/useCountry";
+import { useAppSetting, useUpdateAppSetting } from "@/hooks/useAppSettings";
 
 export default function Admin() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data: isAdmin, isLoading: adminLoading } = useIsAdmin();
   const { t, lang } = useLanguage();
+  const [adminCountry, setAdminCountry] = useState<Country>("NO");
 
   if (adminLoading) return <div className="min-h-screen bg-background flex items-center justify-center"><div className="animate-pulse w-16 h-16 rounded-full gradient-primary" /></div>;
 
@@ -37,38 +41,52 @@ export default function Admin() {
       <header className="sticky top-0 z-40 bg-background/95 backdrop-blur-md border-b border-border safe-area-pt">
         <div className="flex items-center gap-3 px-4 py-4">
           <button onClick={() => navigate(-1)} className="w-10 h-10 flex items-center justify-center rounded-full bg-muted hover:bg-muted/80 transition-colors"><ArrowLeft className="w-5 h-5 text-foreground" /></button>
-          <h1 className="text-lg font-bold text-foreground">{t("admin.title")}</h1>
+          <h1 className="text-lg font-bold text-foreground flex-1">{t("admin.title")}</h1>
+          <Select value={adminCountry} onValueChange={(v) => setAdminCountry(v as Country)}>
+            <SelectTrigger className="w-auto min-w-[110px] h-9">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent align="end">
+              {COUNTRIES.map((c) => (
+                <SelectItem key={c.code} value={c.code}>
+                  <span className="flex items-center gap-2"><span>{c.flag}</span><span>{c.name}</span></span>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
       </header>
       <div className="max-w-4xl mx-auto px-4 py-6">
-        <StatsOverview />
+        <StatsOverview country={adminCountry} />
         <Tabs defaultValue="reports" className="mt-6">
-          <TabsList className="w-full grid grid-cols-4">
+          <TabsList className="w-full grid grid-cols-5">
             <TabsTrigger value="reports"><AlertTriangle className="w-4 h-4 mr-1" />{t("admin.reports")}</TabsTrigger>
             <TabsTrigger value="help"><HelpCircle className="w-4 h-4 mr-1" />{t("admin.help")}</TabsTrigger>
             <TabsTrigger value="users"><Users className="w-4 h-4 mr-1" />{t("admin.users")}</TabsTrigger>
             <TabsTrigger value="content"><FileText className="w-4 h-4 mr-1" />{t("admin.content")}</TabsTrigger>
+            <TabsTrigger value="settings"><Settings className="w-4 h-4 mr-1" />{t("admin.settings")}</TabsTrigger>
           </TabsList>
-          <TabsContent value="reports"><ReportsTab /></TabsContent>
-          <TabsContent value="help"><HelpTab /></TabsContent>
-          <TabsContent value="users"><UsersTab /></TabsContent>
-          <TabsContent value="content"><ContentTab /></TabsContent>
+          <TabsContent value="reports"><ReportsTab country={adminCountry} /></TabsContent>
+          <TabsContent value="help"><HelpTab country={adminCountry} /></TabsContent>
+          <TabsContent value="users"><UsersTab country={adminCountry} /></TabsContent>
+          <TabsContent value="content"><ContentTab country={adminCountry} /></TabsContent>
+          <TabsContent value="settings"><SettingsTab /></TabsContent>
         </Tabs>
       </div>
     </div>
   );
 }
 
-function StatsOverview() {
+function StatsOverview({ country }: { country: Country }) {
   const { t } = useLanguage();
   const { data: stats } = useQuery({
-    queryKey: ["admin-stats"],
+    queryKey: ["admin-stats", country],
     queryFn: async () => {
       const [users, listings, reports, help] = await Promise.all([
-        supabase.from("profiles").select("id", { count: "exact", head: true }),
-        supabase.from("listings").select("id", { count: "exact", head: true }),
-        supabase.from("reports").select("id", { count: "exact", head: true }).eq("status", "pending"),
-        supabase.from("help_requests").select("id", { count: "exact", head: true }).eq("status", "open"),
+        supabase.from("profiles").select("id", { count: "exact", head: true }).eq("country", country),
+        supabase.from("listings").select("id", { count: "exact", head: true }).eq("country", country),
+        supabase.from("reports").select("id", { count: "exact", head: true }).eq("status", "pending").eq("country", country),
+        supabase.from("help_requests").select("id", { count: "exact", head: true }).eq("status", "open").eq("country", country),
       ]);
       return { users: users.count ?? 0, listings: listings.count ?? 0, pendingReports: reports.count ?? 0, openHelp: help.count ?? 0 };
     },
