@@ -1,14 +1,23 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-type Lang = "no" | "en";
+export type Lang = "no" | "en" | "sv" | "de" | "da";
+
+export const LANGUAGES: { code: Lang; label: string }[] = [
+  { code: "en", label: "English" },
+  { code: "no", label: "Norsk" },
+  { code: "sv", label: "Svenska" },
+  { code: "de", label: "Deutsch" },
+  { code: "da", label: "Dansk" },
+];
 
 interface LanguageContextType {
   lang: Lang;
+  setLang: (l: Lang) => void;
   toggleLang: () => void;
   t: (key: string) => string;
 }
 
-const translations: Record<string, Record<Lang, string>> = {
+const translations: Record<string, Partial<Record<Lang, string>>> = {
   // Onboarding
   "onboarding.heading1": { no: "En liten handling for deg.", en: "A small action for you." },
   "onboarding.heading2": { no: "En stor forskjell for miljøet.", en: "A big difference for the environment." },
