@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/hooks/useLanguage";
+import { CountryProvider } from "@/hooks/useCountry";
 import { FloatingButtons } from "@/components/FloatingButtons";
 import Index from "./pages/Index";
 import Onboarding from "./pages/Onboarding";
@@ -16,6 +17,8 @@ import Profile from "./pages/Profile";
 import Terms from "./pages/Terms";
 import FAQ from "./pages/FAQ";
 import Admin from "./pages/Admin";
+import Inbox from "./pages/Inbox";
+import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -38,6 +41,8 @@ const AppRoutes = () => (
     <Route path="/listing/:id" element={<ListingDetail />} />
     <Route path="/create-listing" element={<ProtectedRoute><CreateListing /></ProtectedRoute>} />
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+    <Route path="/inbox" element={<ProtectedRoute><Inbox /></ProtectedRoute>} />
+    <Route path="/chat/:conversationId" element={<ProtectedRoute><Chat /></ProtectedRoute>} />
     <Route path="/admin0108fima" element={<ProtectedRoute><Admin /></ProtectedRoute>} />
     <Route path="*" element={<NotFound />} />
   </Routes>
@@ -47,14 +52,16 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <LanguageProvider>
-        <AuthProvider>
-          <Toaster />
-          <Sonner position="top-center" />
-          <BrowserRouter>
-            <AppRoutes />
-            <FloatingButtons />
-          </BrowserRouter>
-        </AuthProvider>
+        <CountryProvider>
+          <AuthProvider>
+            <Toaster />
+            <Sonner position="top-center" />
+            <BrowserRouter>
+              <AppRoutes />
+              <FloatingButtons />
+            </BrowserRouter>
+          </AuthProvider>
+        </CountryProvider>
       </LanguageProvider>
     </TooltipProvider>
   </QueryClientProvider>

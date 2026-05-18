@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Recycle, Truck, Banknote, ArrowRight } from "lucide-react";
-import { LanguageToggle } from "@/components/LanguageToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { CountrySelector } from "@/components/CountrySelector";
 import { useLanguage } from "@/hooks/useLanguage";
 import pantoraLogo from "@/assets/pantora-logo.png";
 
@@ -28,8 +29,9 @@ export default function Onboarding() {
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Language toggle at top */}
-      <div className="flex justify-end px-4 pt-4">
-        <LanguageToggle />
+      <div className="flex justify-end gap-2 px-4 pt-4">
+        <CountrySelector />
+        <LanguageSelector />
       </div>
 
       <div className="flex-1 flex flex-col items-center justify-center px-6 md:px-16 lg:px-32 py-12">

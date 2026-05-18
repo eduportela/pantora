@@ -8,6 +8,7 @@ import { MapPin } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useCountry } from "@/hooks/useCountry";
 
 type FilterType = "all" | "sell" | "donate";
 
@@ -15,13 +16,15 @@ export default function Feed() {
   const [filter, setFilter] = useState<FilterType>("all");
   const [cityFilter, setCityFilter] = useState<string>("all");
   const { t } = useLanguage();
+  const { country } = useCountry();
 
   const { data: listings = [], isLoading } = useQuery({
-    queryKey: ["listings", filter],
+    queryKey: ["listings", filter, country],
     queryFn: async () => {
       let query = supabase
         .from("listings")
         .select("*")
+        .eq("country", country)
         .order("created_at", { ascending: false });
 
       if (filter !== "all") {
