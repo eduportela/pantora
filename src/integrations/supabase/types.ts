@@ -14,9 +14,28 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          value: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          value?: Json
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           content: string
+          country: string
           created_at: string
           id: string
           listing_id: string
@@ -24,6 +43,7 @@ export type Database = {
         }
         Insert: {
           content: string
+          country?: string
           created_at?: string
           id?: string
           listing_id: string
@@ -31,6 +51,7 @@ export type Database = {
         }
         Update: {
           content?: string
+          country?: string
           created_at?: string
           id?: string
           listing_id?: string
@@ -46,10 +67,41 @@ export type Database = {
           },
         ]
       }
+      conversations: {
+        Row: {
+          country: string
+          created_at: string
+          id: string
+          last_message_at: string
+          listing_id: string | null
+          user_a: string
+          user_b: string
+        }
+        Insert: {
+          country?: string
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          listing_id?: string | null
+          user_a: string
+          user_b: string
+        }
+        Update: {
+          country?: string
+          created_at?: string
+          id?: string
+          last_message_at?: string
+          listing_id?: string | null
+          user_a?: string
+          user_b?: string
+        }
+        Relationships: []
+      }
       help_requests: {
         Row: {
           admin_notes: string | null
           category: string
+          country: string
           created_at: string
           email: string
           id: string
@@ -62,6 +114,7 @@ export type Database = {
         Insert: {
           admin_notes?: string | null
           category: string
+          country?: string
           created_at?: string
           email: string
           id?: string
@@ -74,6 +127,7 @@ export type Database = {
         Update: {
           admin_notes?: string | null
           category?: string
+          country?: string
           created_at?: string
           email?: string
           id?: string
@@ -88,6 +142,7 @@ export type Database = {
       listings: {
         Row: {
           bottle_count: number | null
+          country: string
           created_at: string
           description: string | null
           id: string
@@ -101,6 +156,7 @@ export type Database = {
         }
         Insert: {
           bottle_count?: number | null
+          country?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -114,6 +170,7 @@ export type Database = {
         }
         Update: {
           bottle_count?: number | null
+          country?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -127,9 +184,48 @@ export type Database = {
         }
         Relationships: []
       }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          country: string
+          created_at: string
+          id: string
+          read_at: string | null
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          country?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          country?: string
+          created_at?: string
+          id?: string
+          read_at?: string | null
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       notifications: {
         Row: {
           body: string | null
+          country: string
           created_at: string
           from_user_id: string | null
           id: string
@@ -141,6 +237,7 @@ export type Database = {
         }
         Insert: {
           body?: string | null
+          country?: string
           created_at?: string
           from_user_id?: string | null
           id?: string
@@ -152,6 +249,7 @@ export type Database = {
         }
         Update: {
           body?: string | null
+          country?: string
           created_at?: string
           from_user_id?: string | null
           id?: string
@@ -176,6 +274,7 @@ export type Database = {
           address: string | null
           address_public: boolean
           avatar_url: string | null
+          country: string
           created_at: string
           display_name: string | null
           email: string | null
@@ -190,6 +289,7 @@ export type Database = {
           address?: string | null
           address_public?: boolean
           avatar_url?: string | null
+          country?: string
           created_at?: string
           display_name?: string | null
           email?: string | null
@@ -204,6 +304,7 @@ export type Database = {
           address?: string | null
           address_public?: boolean
           avatar_url?: string | null
+          country?: string
           created_at?: string
           display_name?: string | null
           email?: string | null
@@ -219,6 +320,7 @@ export type Database = {
       reports: {
         Row: {
           admin_notes: string | null
+          country: string
           created_at: string
           description: string | null
           id: string
@@ -232,6 +334,7 @@ export type Database = {
         }
         Insert: {
           admin_notes?: string | null
+          country?: string
           created_at?: string
           description?: string | null
           id?: string
@@ -245,6 +348,7 @@ export type Database = {
         }
         Update: {
           admin_notes?: string | null
+          country?: string
           created_at?: string
           description?: string | null
           id?: string
