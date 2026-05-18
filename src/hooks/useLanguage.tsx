@@ -349,6 +349,10 @@ const translations: Record<string, Partial<Record<Lang, string>>> = {
   "admin.pendingReports": { no: "Ventende rapporter", en: "Pending reports" },
   "admin.openHelp": { no: "Åpne hjelpeforespørsler", en: "Open help requests" },
 
+  // General
+  "general.somethingWrong": { no: "Noe gikk galt", en: "Something went wrong" },
+  "general.copyright": { no: "© {year} Pantora. Alle rettigheter reservert.", en: "© {year} Pantora. All rights reserved." },
+
   // Chat
   "chat.title": { no: "Meldinger", en: "Messages", sv: "Meddelanden", de: "Nachrichten", da: "Beskeder" },
   "chat.inbox": { no: "Innboks", en: "Inbox", sv: "Inkorg", de: "Posteingang", da: "Indbakke" },
