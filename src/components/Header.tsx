@@ -1,5 +1,6 @@
 import { NotificationBell } from "@/components/NotificationBell";
-import { LanguageToggle } from "@/components/LanguageToggle";
+import { LanguageSelector } from "@/components/LanguageSelector";
+import { CountrySelector } from "@/components/CountrySelector";
 import { useAuth } from "@/hooks/useAuth";
 
 interface HeaderProps {
@@ -13,8 +14,8 @@ export function Header({ showLogo = true, title, subtitle }: HeaderProps) {
 
   return (
     <header className="pt-6 pb-4 px-4">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex items-start justify-between gap-2">
+        <div className="min-w-0">
           {showLogo && (
             <div className="flex items-center gap-3 mb-2">
               <img
@@ -27,11 +28,12 @@ export function Header({ showLogo = true, title, subtitle }: HeaderProps) {
               </span>
             </div>
           )}
-          {title && <h1 className="text-2xl font-bold text-foreground">{title}</h1>}
+          {title && <h1 className="text-2xl font-bold text-foreground truncate">{title}</h1>}
           {subtitle && <p className="text-muted-foreground mt-1">{subtitle}</p>}
         </div>
-        <div className="flex items-center gap-2">
-          <LanguageToggle />
+        <div className="flex items-center gap-2 flex-wrap justify-end">
+          <CountrySelector />
+          <LanguageSelector />
           {user && <NotificationBell />}
         </div>
       </div>
