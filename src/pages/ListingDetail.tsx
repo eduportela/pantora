@@ -9,11 +9,12 @@ import { CommentSection } from "@/components/CommentSection";
 import { Button } from "@/components/ui/button";
 import { ReportButton } from "@/components/ReportButton";
 import { SafetyTipsDialog } from "@/components/SafetyTipsDialog";
-import { ArrowLeft, MapPin, Package, Heart, Phone, Mail, Trash2, Edit } from "lucide-react";
+import { ArrowLeft, MapPin, Package, Heart, Phone, Mail, Trash2, Edit, MessageCircle } from "lucide-react";
 import { toast } from "sonner";
 import { formatDistanceToNow } from "date-fns";
 import { nb, enUS } from "date-fns/locale";
 import { Badge } from "@/components/ui/badge";
+import { useChatEnabled } from "@/hooks/useAppSettings";
 
 export default function ListingDetail() {
   const { id } = useParams();
@@ -25,6 +26,27 @@ export default function ListingDetail() {
   const dateLocale = lang === "no" ? nb : enUS;
   const [showSafetyTips, setShowSafetyTips] = useState(false);
   const [pendingContact, setPendingContact] = useState<string | null>(null);
+  const chatEnabled = useChatEnabled();
+
+  const openConversation = async () => {
+    if (!user) { toast.error(t("chat.loginRequired")); return; }
+    if (user.id === listing.user_id) { toast.error(t("chat.cantMessageSelf")); return; }
+    const [a, b] = [user.id, listing.user_id].sort();
+    const { data: existing } = await supabase
+      .from("conversations")
+      .select("id")
+      .eq("country", listing.country || "NO")
+      .eq("user_a", a).eq("user_b", b)
+      .is("listing_id", null)
+      .maybeSingle();
+    if (existing) { navigate(`/chat/${existing.id}`); return; }
+    const { data: created, error } = await supabase
+      .from("conversations")
+      .insert({ country: listing.country || "NO", user_a: a, user_b: b })
+      .select("id").single();
+    if (error) { toast.error(error.message); return; }
+    navigate(`/chat/${created.id}`);
+  };
 
   const { data: listing, isLoading } = useQuery({
     queryKey: ["listing", id],
@@ -99,7 +121,12 @@ export default function ListingDetail() {
                 <p className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(listing.created_at), { addSuffix: true, locale: dateLocale })}</p>
               </div>
             </div>
-            <div className="flex gap-2 mt-3">
+            <div className="flex gap-2 mt-3 flex-wrap">
+              {!isOwner && chatEnabled && (
+                <Button size="sm" variant="default" className="flex-1 min-w-[120px]" onClick={openConversation}>
+                  <MessageCircle className="w-4 h-4 mr-1" />{t("chat.messageSeller")}
+                </Button>
+              )}
               {profile?.phone_public && profile?.phone && <Button size="sm" variant="outline" className="flex-1" onClick={() => { setPendingContact(`tel:${profile.phone}`); setShowSafetyTips(true); }}><Phone className="w-4 h-4 mr-1" />{t("listing.call")}</Button>}
               {profile?.email_public && profile?.email && <Button size="sm" variant="outline" className="flex-1" onClick={() => { setPendingContact(`mailto:${profile.email}`); setShowSafetyTips(true); }}><Mail className="w-4 h-4 mr-1" />{t("listing.emailBtn")}</Button>}
               {!isOwner && <ReportButton reportType="profile" targetId={listing.user_id} variant="text" />}
