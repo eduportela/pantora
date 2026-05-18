@@ -349,35 +349,53 @@ const translations: Record<string, Partial<Record<Lang, string>>> = {
   "admin.pendingReports": { no: "Ventende rapporter", en: "Pending reports" },
   "admin.openHelp": { no: "Åpne hjelpeforespørsler", en: "Open help requests" },
 
-  // General
-  "general.somethingWrong": { no: "Noe gikk galt", en: "Something went wrong" },
-  "general.copyright": { no: "© {year} Pantora. Alle rettigheter reservert.", en: "© {year} Pantora. All rights reserved." },
+  // Chat
+  "chat.title": { no: "Meldinger", en: "Messages", sv: "Meddelanden", de: "Nachrichten", da: "Beskeder" },
+  "chat.inbox": { no: "Innboks", en: "Inbox", sv: "Inkorg", de: "Posteingang", da: "Indbakke" },
+  "chat.empty": { no: "Ingen samtaler ennå", en: "No conversations yet", sv: "Inga konversationer ännu", de: "Noch keine Gespräche", da: "Ingen samtaler endnu" },
+  "chat.messageSeller": { no: "Send melding", en: "Send message", sv: "Skicka meddelande", de: "Nachricht senden", da: "Send besked" },
+  "chat.placeholder": { no: "Skriv en melding...", en: "Write a message...", sv: "Skriv ett meddelande...", de: "Nachricht schreiben...", da: "Skriv en besked..." },
+  "chat.send": { no: "Send", en: "Send", sv: "Skicka", de: "Senden", da: "Send" },
+  "chat.disabled": { no: "Chat er midlertidig utilgjengelig", en: "Chat is temporarily unavailable", sv: "Chatten är tillfälligt otillgänglig", de: "Chat ist vorübergehend nicht verfügbar", da: "Chat er midlertidigt utilgængelig" },
+  "chat.loginRequired": { no: "Logg inn for å sende meldinger", en: "Log in to send messages", sv: "Logga in för att skicka meddelanden", de: "Anmelden, um Nachrichten zu senden", da: "Log ind for at sende beskeder" },
+  "chat.cantMessageSelf": { no: "Du kan ikke sende melding til deg selv", en: "You can't message yourself", sv: "Du kan inte skicka meddelande till dig själv", de: "Sie können sich selbst keine Nachricht senden", da: "Du kan ikke sende besked til dig selv" },
+  "nav.inbox": { no: "Innboks", en: "Inbox", sv: "Inkorg", de: "Posteingang", da: "Indbakke" },
+
+  // Country
+  "country.select": { no: "Velg land", en: "Select country", sv: "Välj land", de: "Land wählen", da: "Vælg land" },
+
+  // Admin extras
+  "admin.chatSettings": { no: "Chat-innstillinger", en: "Chat settings", sv: "Chattinställningar", de: "Chat-Einstellungen", da: "Chatindstillinger" },
+  "admin.chatEnabled": { no: "Chat aktivert", en: "Chat enabled", sv: "Chatt aktiverad", de: "Chat aktiviert", da: "Chat aktiveret" },
+  "admin.chatToggleDesc": { no: "Slå chatsystemet av eller på globalt for alle brukere.", en: "Toggle the chat system on or off globally for all users.", sv: "Slå på eller av chattsystemet globalt för alla användare.", de: "Schalten Sie das Chatsystem global für alle Benutzer ein oder aus.", da: "Slå chatsystemet til eller fra globalt for alle brugere." },
+  "admin.country": { no: "Land", en: "Country", sv: "Land", de: "Land", da: "Land" },
+  "admin.settings": { no: "Innstillinger", en: "Settings", sv: "Inställningar", de: "Einstellungen", da: "Indstillinger" },
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>(() => {
-    const saved = localStorage.getItem("pantora-lang");
-    return (saved === "en" ? "en" : "no") as Lang;
+  const [lang, setLangState] = useState<Lang>(() => {
+    const saved = localStorage.getItem("pantora-lang") as Lang | null;
+    if (saved && ["no", "en", "sv", "de", "da"].includes(saved)) return saved;
+    return "no";
   });
 
-  const toggleLang = () => {
-    setLang((prev) => {
-      const next = prev === "no" ? "en" : "no";
-      localStorage.setItem("pantora-lang", next);
-      return next;
-    });
+  const setLang = (l: Lang) => {
+    localStorage.setItem("pantora-lang", l);
+    setLangState(l);
   };
+
+  const toggleLang = () => setLang(lang === "no" ? "en" : "no");
 
   const t = (key: string): string => {
     const entry = translations[key];
     if (!entry) return key;
-    return entry[lang] || entry["no"] || key;
+    return entry[lang] || entry.en || entry.no || key;
   };
 
   return (
-    <LanguageContext.Provider value={{ lang, toggleLang, t }}>
+    <LanguageContext.Provider value={{ lang, setLang, toggleLang, t }}>
       {children}
     </LanguageContext.Provider>
   );
