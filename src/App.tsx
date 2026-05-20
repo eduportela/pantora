@@ -36,6 +36,7 @@ const AppRoutes = () => (
     <Route path="/" element={<Index />} />
     <Route path="/onboarding" element={<Onboarding />} />
     <Route path="/auth" element={<Auth />} />
+    <Route path="/reset-password" element={<ResetPassword />} />
     <Route path="/terms" element={<Terms />} />
     <Route path="/faq" element={<FAQ />} />
     <Route path="/feed" element={<Feed />} />
