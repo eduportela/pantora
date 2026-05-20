@@ -11,9 +11,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface ReportButtonProps {
-  reportType: "listing" | "comment" | "profile";
+  reportType: "listing" | "comment" | "profile" | "conversation" | "user" | "message";
   targetId: string;
   variant?: "icon" | "text";
+  trigger?: React.ReactNode;
 }
 
 export function ReportButton({ reportType, targetId, variant = "icon" }: ReportButtonProps) {
