@@ -40,11 +40,11 @@ function ContactDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
         <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-xl">
           <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0"><User className="w-7 h-7 text-primary" /></div>
           <div>
-            <p className="font-semibold text-foreground">Maria Figu</p>
-            <a href="mailto:mariafigu@pantora.no" className="text-sm text-primary font-medium hover:underline">mariafigu@pantora.no</a>
+            <p className="font-semibold text-foreground">Maria Figueiredo</p>
+            <a href="mailto:mariafigueiredo233@gmail.com" className="text-sm text-primary font-medium hover:underline break-all">mariafigueiredo233@gmail.com</a>
           </div>
         </div>
-        <Button variant="default" className="w-full" onClick={() => window.location.href = "mailto:mariafigu@pantora.no"}>
+        <Button variant="default" className="w-full" onClick={() => window.location.href = "mailto:mariafigueiredo233@gmail.com"}>
           <Mail className="w-4 h-4 mr-2" />{t("contact.sendEmail")}
         </Button>
       </DialogContent>
