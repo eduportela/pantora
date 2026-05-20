@@ -23,6 +23,10 @@ export default function Inbox() {
     queryKey: ["conversations", user?.id, country, version],
     enabled: !!user,
     queryFn: async () => {
+      const { data: blocks } = await supabase
+        .from("blocked_users").select("blocked_user_id").eq("user_id", user!.id);
+      const blockedSet = new Set((blocks || []).map((b) => b.blocked_user_id));
+
       const { data, error } = await supabase
         .from("conversations")
         .select("*")
@@ -32,14 +36,20 @@ export default function Inbox() {
       if (error) throw error;
       if (!data?.length) return [];
 
-      const otherIds = data.map((c) => (c.user_a === user!.id ? c.user_b : c.user_a));
+      const filtered = data.filter((c) => {
+        const otherId = c.user_a === user!.id ? c.user_b : c.user_a;
+        return !blockedSet.has(otherId);
+      });
+      if (!filtered.length) return [];
+
+      const otherIds = filtered.map((c) => (c.user_a === user!.id ? c.user_b : c.user_a));
       const { data: profiles } = await supabase
         .from("profiles")
         .select("user_id, display_name, avatar_url")
         .in("user_id", otherIds);
       const profMap = new Map((profiles || []).map((p) => [p.user_id, p]));
 
-      const convIds = data.map((c) => c.id);
+      const convIds = filtered.map((c) => c.id);
       const { data: lastMessages } = await supabase
         .from("messages")
         .select("conversation_id, content, created_at, sender_id, read_at")
@@ -54,7 +64,7 @@ export default function Inbox() {
         }
       });
 
-      return data.map((c) => ({
+      return filtered.map((c) => ({
         ...c,
         other: profMap.get(c.user_a === user!.id ? c.user_b : c.user_a),
         lastMessage: lastMap.get(c.id),
