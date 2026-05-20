@@ -374,6 +374,33 @@ const translations: Record<string, Partial<Record<Lang, string>>> = {
   "admin.chatToggleDesc": { no: "Slå chatsystemet av eller på globalt for alle brukere.", en: "Toggle the chat system on or off globally for all users.", sv: "Slå på eller av chattsystemet globalt för alla användare.", de: "Schalten Sie das Chatsystem global für alle Benutzer ein oder aus.", da: "Slå chatsystemet til eller fra globalt for alle brugere." },
   "admin.country": { no: "Land", en: "Country", sv: "Land", de: "Land", da: "Land" },
   "admin.settings": { no: "Innstillinger", en: "Settings", sv: "Inställningar", de: "Einstellungen", da: "Indstillinger" },
+
+  // Chat moderation
+  "chat.deleteConversation": { no: "Slett samtale", en: "Delete conversation", sv: "Radera konversation", de: "Gespräch löschen", da: "Slet samtale" },
+  "chat.deleteConfirm": { no: "Er du sikker på at du vil slette denne samtalen? Dette kan ikke angres.", en: "Are you sure you want to delete this conversation? This cannot be undone.", sv: "Är du säker på att du vill radera denna konversation? Detta kan inte ångras.", de: "Möchten Sie dieses Gespräch wirklich löschen? Dies kann nicht rückgängig gemacht werden.", da: "Er du sikker på, at du vil slette denne samtale? Dette kan ikke fortrydes." },
+  "chat.deleted": { no: "Samtalen er slettet", en: "Conversation deleted", sv: "Konversationen raderad", de: "Gespräch gelöscht", da: "Samtalen slettet" },
+  "chat.blockUser": { no: "Blokker bruker", en: "Block user", sv: "Blockera användare", de: "Benutzer blockieren", da: "Blokér bruger" },
+  "chat.blockConfirm": { no: "Blokkerte brukere kan ikke kontakte deg. Du kan oppheve blokkeringen senere.", en: "Blocked users cannot contact you. You can unblock later.", sv: "Blockerade användare kan inte kontakta dig. Du kan avblockera senare.", de: "Blockierte Benutzer können Sie nicht kontaktieren. Sie können später entsperren.", da: "Blokerede brugere kan ikke kontakte dig. Du kan ophæve blokeringen senere." },
+  "chat.userBlocked": { no: "Brukeren er blokkert", en: "User blocked", sv: "Användaren blockerad", de: "Benutzer blockiert", da: "Bruger blokeret" },
+  "chat.reportConversation": { no: "Rapporter samtale", en: "Report conversation", sv: "Rapportera konversation", de: "Gespräch melden", da: "Rapportér samtale" },
+  "chat.reportUser": { no: "Rapporter bruker", en: "Report user", sv: "Rapportera användare", de: "Benutzer melden", da: "Rapportér bruger" },
+  "report.conversation": { no: "samtalen", en: "the conversation", sv: "konversationen", de: "das Gespräch", da: "samtalen" },
+  "report.user": { no: "brukeren", en: "the user", sv: "användaren", de: "den Benutzer", da: "brugeren" },
+  "report.message": { no: "meldingen", en: "the message", sv: "meddelandet", de: "die Nachricht", da: "beskeden" },
+
+  // Auth reset
+  "auth.forgotPassword": { no: "Glemt passord?", en: "Forgot password?", sv: "Glömt lösenord?", de: "Passwort vergessen?", da: "Glemt adgangskode?" },
+  "auth.enterEmailFirst": { no: "Skriv inn e-postadressen din først", en: "Enter your email first", sv: "Ange din e-post först", de: "Geben Sie zuerst Ihre E-Mail ein", da: "Indtast din e-mail først" },
+  "auth.resetSent": { no: "Sjekk e-posten for å tilbakestille passordet", en: "Check your email to reset your password", sv: "Kolla din e-post för att återställa lösenordet", de: "Überprüfen Sie Ihre E-Mail, um Ihr Passwort zurückzusetzen", da: "Tjek din e-mail for at nulstille adgangskoden" },
+  "auth.resetTitle": { no: "Nytt passord", en: "New password", sv: "Nytt lösenord", de: "Neues Passwort", da: "Ny adgangskode" },
+  "auth.resetSubtitle": { no: "Velg et nytt passord for kontoen din", en: "Choose a new password for your account", sv: "Välj ett nytt lösenord för ditt konto", de: "Wählen Sie ein neues Passwort für Ihr Konto", da: "Vælg en ny adgangskode til din konto" },
+  "auth.newPassword": { no: "Nytt passord", en: "New password", sv: "Nytt lösenord", de: "Neues Passwort", da: "Ny adgangskode" },
+  "auth.confirmPassword": { no: "Bekreft passord", en: "Confirm password", sv: "Bekräfta lösenord", de: "Passwort bestätigen", da: "Bekræft adgangskode" },
+  "auth.updatePassword": { no: "Oppdater passord", en: "Update password", sv: "Uppdatera lösenord", de: "Passwort aktualisieren", da: "Opdater adgangskode" },
+  "auth.passwordUpdated": { no: "Passordet er oppdatert", en: "Password updated", sv: "Lösenord uppdaterat", de: "Passwort aktualisiert", da: "Adgangskode opdateret" },
+  "auth.passwordTooShort": { no: "Passordet må være minst 6 tegn", en: "Password must be at least 6 characters", sv: "Lösenordet måste vara minst 6 tecken", de: "Passwort muss mindestens 6 Zeichen lang sein", da: "Adgangskoden skal være mindst 6 tegn" },
+  "auth.passwordMismatch": { no: "Passordene stemmer ikke overens", en: "Passwords do not match", sv: "Lösenorden matchar inte", de: "Passwörter stimmen nicht überein", da: "Adgangskoderne matcher ikke" },
+  "auth.openFromEmail": { no: "Åpne denne siden via lenken i e-posten du fikk.", en: "Open this page via the link in the email you received.", sv: "Öppna denna sida via länken i e-postmeddelandet du fick.", de: "Öffnen Sie diese Seite über den Link in der E-Mail, die Sie erhalten haben.", da: "Åbn denne side via linket i e-mailen, du modtog." },
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
