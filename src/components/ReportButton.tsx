@@ -17,7 +17,7 @@ interface ReportButtonProps {
   trigger?: React.ReactNode;
 }
 
-export function ReportButton({ reportType, targetId, variant = "icon" }: ReportButtonProps) {
+export function ReportButton({ reportType, targetId, variant = "icon", trigger }: ReportButtonProps) {
   const { user } = useAuth();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
