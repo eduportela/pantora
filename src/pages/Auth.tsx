@@ -114,6 +114,25 @@ export default function Auth() {
             </div>
           </div>
 
+          {!isSignUp && (
+            <div className="flex justify-end">
+              <button
+                type="button"
+                onClick={async () => {
+                  if (!email) { toast.error(t("auth.enterEmailFirst")); return; }
+                  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                    redirectTo: `${window.location.origin}/reset-password`,
+                  });
+                  if (error) toast.error(error.message);
+                  else toast.success(t("auth.resetSent"));
+                }}
+                className="text-sm text-primary font-medium hover:underline"
+              >
+                {t("auth.forgotPassword")}
+              </button>
+            </div>
+          )}
+
           {isSignUp && (
             <div className="flex items-start space-x-3 pt-2">
               <Checkbox id="terms" checked={acceptedTerms} onCheckedChange={(checked) => setAcceptedTerms(checked === true)} className="mt-0.5" />

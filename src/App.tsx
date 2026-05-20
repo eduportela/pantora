@@ -20,6 +20,7 @@ import Admin from "./pages/Admin";
 import Inbox from "./pages/Inbox";
 import Chat from "./pages/Chat";
 import NotFound from "./pages/NotFound";
+import ResetPassword from "./pages/ResetPassword";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const AppRoutes = () => (
     <Route path="/" element={<Index />} />
     <Route path="/onboarding" element={<Onboarding />} />
     <Route path="/auth" element={<Auth />} />
+    <Route path="/reset-password" element={<ResetPassword />} />
     <Route path="/terms" element={<Terms />} />
     <Route path="/faq" element={<FAQ />} />
     <Route path="/feed" element={<Feed />} />

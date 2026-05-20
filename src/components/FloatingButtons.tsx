@@ -1,5 +1,6 @@
-import { useState } from "react";
-import { Mail, HelpCircle, X, Send, User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Mail, HelpCircle, Send, User, MessageCircle } from "lucide-react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -8,20 +9,71 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/hooks/useLanguage";
+import { useChatEnabled } from "@/hooks/useAppSettings";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 export function FloatingButtons() {
   const [contactOpen, setContactOpen] = useState(false);
   const [helpOpen, setHelpOpen] = useState(false);
+  const { user } = useAuth();
+  const chatEnabled = useChatEnabled();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [tick, setTick] = useState(0);
+
+  const hideChatRoutes = ["/auth", "/onboarding", "/"];
+  const onChatPage = location.pathname.startsWith("/chat") || location.pathname === "/inbox";
+  const showChat = !!user && chatEnabled && !onChatPage && !hideChatRoutes.includes(location.pathname);
+
+  const { data: unread = 0 } = useQuery({
+    queryKey: ["fab-unread", user?.id, tick],
+    enabled: showChat,
+    queryFn: async () => {
+      const { data: convs } = await supabase
+        .from("conversations").select("id").or(`user_a.eq.${user!.id},user_b.eq.${user!.id}`);
+      if (!convs?.length) return 0;
+      const { count } = await supabase
+        .from("messages")
+        .select("id", { count: "exact", head: true })
+        .in("conversation_id", convs.map((c) => c.id))
+        .neq("sender_id", user!.id)
+        .is("read_at", null);
+      return count ?? 0;
+    },
+  });
+
+  useEffect(() => {
+    if (!showChat) return;
+    const ch = supabase
+      .channel("fab-unread")
+      .on("postgres_changes", { event: "*", schema: "public", table: "messages" }, () => setTick((v) => v + 1))
+      .subscribe();
+    return () => { supabase.removeChannel(ch); };
+  }, [showChat]);
 
   return (
     <>
-      <div className="fixed bottom-20 right-4 z-40 flex flex-col gap-3">
-        <button onClick={() => setContactOpen(true)} className="w-12 h-12 rounded-full bg-primary text-primary-foreground shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" aria-label="Contact">
+      <div className="fixed bottom-24 right-4 z-40 flex flex-col gap-3 items-end">
+        {showChat && (
+          <button
+            onClick={() => navigate("/inbox")}
+            className="relative w-14 h-14 rounded-full bg-primary text-primary-foreground shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform"
+            aria-label="Chat"
+          >
+            <MessageCircle className="w-6 h-6" />
+            {unread > 0 && (
+              <span className="absolute -top-1 -right-1 bg-destructive text-destructive-foreground text-[10px] font-bold rounded-full min-w-[20px] h-5 px-1 flex items-center justify-center border-2 border-background">
+                {unread > 9 ? "9+" : unread}
+              </span>
+            )}
+          </button>
+        )}
+        <button onClick={() => setContactOpen(true)} className="w-12 h-12 rounded-full bg-card text-foreground border border-border shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" aria-label="Contact">
           <Mail className="w-5 h-5" />
         </button>
-        <button onClick={() => setHelpOpen(true)} className="w-12 h-12 rounded-full bg-accent text-accent-foreground shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" aria-label="Help">
+        <button onClick={() => setHelpOpen(true)} className="w-12 h-12 rounded-full bg-card text-foreground border border-border shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-transform" aria-label="Help">
           <HelpCircle className="w-5 h-5" />
         </button>
       </div>
@@ -40,11 +92,11 @@ function ContactDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (v
         <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-xl">
           <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center shrink-0"><User className="w-7 h-7 text-primary" /></div>
           <div>
-            <p className="font-semibold text-foreground">Maria Figu</p>
-            <a href="mailto:mariafigu@pantora.no" className="text-sm text-primary font-medium hover:underline">mariafigu@pantora.no</a>
+            <p className="font-semibold text-foreground">Maria Figueiredo</p>
+            <a href="mailto:mariafigueiredo233@gmail.com" className="text-sm text-primary font-medium hover:underline break-all">mariafigueiredo233@gmail.com</a>
           </div>
         </div>
-        <Button variant="default" className="w-full" onClick={() => window.location.href = "mailto:mariafigu@pantora.no"}>
+        <Button variant="default" className="w-full" onClick={() => window.location.href = "mailto:mariafigueiredo233@gmail.com"}>
           <Mail className="w-4 h-4 mr-2" />{t("contact.sendEmail")}
         </Button>
       </DialogContent>

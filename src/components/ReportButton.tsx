@@ -11,12 +11,13 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface ReportButtonProps {
-  reportType: "listing" | "comment" | "profile";
+  reportType: "listing" | "comment" | "profile" | "conversation" | "user" | "message";
   targetId: string;
   variant?: "icon" | "text";
+  trigger?: React.ReactNode;
 }
 
-export function ReportButton({ reportType, targetId, variant = "icon" }: ReportButtonProps) {
+export function ReportButton({ reportType, targetId, variant = "icon", trigger }: ReportButtonProps) {
   const { user } = useAuth();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -40,11 +41,16 @@ export function ReportButton({ reportType, targetId, variant = "icon" }: ReportB
     listing: t("report.listing"),
     comment: t("report.comment"),
     profile: t("report.profile"),
+    conversation: t("report.conversation"),
+    user: t("report.user"),
+    message: t("report.message"),
   };
 
   return (
     <>
-      {variant === "icon" ? (
+      {trigger ? (
+        <span onClick={() => setOpen(true)}>{trigger}</span>
+      ) : variant === "icon" ? (
         <button onClick={() => setOpen(true)} className="text-muted-foreground hover:text-destructive transition-colors" title={t("report.btn")}>
           <Flag className="w-4 h-4" />
         </button>
