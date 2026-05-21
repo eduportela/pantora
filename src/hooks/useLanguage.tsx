@@ -404,6 +404,11 @@ const translations: Record<string, Partial<Record<Lang, string>>> = {
   "auth.openFromEmail": { no: "Åpne denne siden via lenken i e-posten du fikk.", en: "Open this page via the link in the email you received.", sv: "Öppna denna sida via länken i e-postmeddelandet du fick.", de: "Öffnen Sie diese Seite über den Link in der E-Mail, die Sie erhalten haben.", da: "Åbn denne side via linket i e-mailen, du modtog." },
 };
 
+// Merge SV/DE/DA translations from extras file
+for (const key in translationsExtra) {
+  translations[key] = { ...translationsExtra[key], ...translations[key] };
+}
+
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
