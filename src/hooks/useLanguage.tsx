@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import { translationsExtra } from "./translationsExtra";
 
 export type Lang = "no" | "en" | "sv" | "de" | "da";
 
@@ -402,6 +403,11 @@ const translations: Record<string, Partial<Record<Lang, string>>> = {
   "auth.passwordMismatch": { no: "Passordene stemmer ikke overens", en: "Passwords do not match", sv: "Lösenorden matchar inte", de: "Passwörter stimmen nicht überein", da: "Adgangskoderne matcher ikke" },
   "auth.openFromEmail": { no: "Åpne denne siden via lenken i e-posten du fikk.", en: "Open this page via the link in the email you received.", sv: "Öppna denna sida via länken i e-postmeddelandet du fick.", de: "Öffnen Sie diese Seite über den Link in der E-Mail, die Sie erhalten haben.", da: "Åbn denne side via linket i e-mailen, du modtog." },
 };
+
+// Merge SV/DE/DA translations from extras file
+for (const key in translationsExtra) {
+  translations[key] = { ...translationsExtra[key], ...translations[key] };
+}
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
