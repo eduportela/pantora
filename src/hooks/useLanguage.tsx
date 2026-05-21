@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import { translationsExtra } from "./translationsExtra";
 
 export type Lang = "no" | "en" | "sv" | "de" | "da";
 
